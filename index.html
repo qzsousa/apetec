@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>APETEC – Achados e Perdidos da ETEC de Itaquera</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+      <div class="nav-logo-text">
+        <span>APETEC</span>
+        <span>ETEC de Itaquera</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre Nós</a>
+      <a href="produtos-servicos.html">Serviços</a>
+      <a href="blog.html">Blog</a>
+      <a href="contato.html">Contato</a>
+      <a href="login.html" class="btn-area-restrita"><i class="fa-solid fa-lock"></i> Área Restrita</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="nav-mobile" id="navMobile">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre Nós</a>
+    <a href="produtos-servicos.html">Serviços</a>
+    <a href="blog.html">Blog / Notícias</a>
+    <a href="contato.html">Contato</a>
+    <a href="login.html" class="btn-area-restrita"><i class="fa-solid fa-lock"></i> Área Restrita</a>
+  </nav>
+</header>
+
+<!-- ═══════════════════ HERO CARROSSEL ═══════════════════ -->
+<section class="hero">
+  <div class="carousel">
+    <div class="carousel-slides">
+
+      <div class="slide slide-1">
+        <div class="slide-content">
+          <div class="slide-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+          <h2>Perdeu algo na ETEC de Itaquera?</h2>
+          <p>A APETEC conecta quem perde com quem encontra. Sistema rápido, seguro e gratuito para toda a comunidade escolar.</p>
+          <a href="login.html" class="btn btn-gold btn-lg"><i class="fa-solid fa-right-to-bracket"></i> Acessar Sistema</a>
+        </div>
+      </div>
+
+      <div class="slide slide-2">
+        <div class="slide-content">
+          <div class="slide-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+          <h2>10 anos devolvendo sorrisos</h2>
+          <p>Desde 2014, mais de 500 itens devolvidos com segurança, transparência e dedicação à comunidade da ETEC.</p>
+          <a href="sobre.html" class="btn btn-gold btn-lg"><i class="fa-solid fa-circle-info"></i> Nossa História</a>
+        </div>
+      </div>
+
+      <div class="slide slide-3">
+        <div class="slide-content">
+          <div class="slide-icon"><i class="fa-solid fa-qrcode"></i></div>
+          <h2>Novo: Busca por QR Code</h2>
+          <p>Registre seu item com um QR Code exclusivo e seja notificado por e-mail quando ele for encontrado.</p>
+          <a href="produtos-servicos.html" class="btn btn-gold btn-lg"><i class="fa-solid fa-wand-magic-sparkles"></i> Ver Serviços</a>
+        </div>
+      </div>
+
+      <div class="slide slide-4">
+        <div class="slide-content">
+          <div class="slide-icon"><i class="fa-solid fa-users"></i></div>
+          <h2>Campanha "Doe um Sorriso"</h2>
+          <p>Participe da nossa campanha de arrecadação de óculos e contribua com a comunidade escolar.</p>
+          <a href="blog.html" class="btn btn-gold btn-lg"><i class="fa-solid fa-newspaper"></i> Saiba Mais</a>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="carousel-btn prev" aria-label="Slide anterior"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="carousel-btn next" aria-label="Próximo slide"><i class="fa-solid fa-chevron-right"></i></button>
+
+    <div class="carousel-dots">
+      <button class="carousel-dot active" aria-label="Slide 1"></button>
+      <button class="carousel-dot" aria-label="Slide 2"></button>
+      <button class="carousel-dot" aria-label="Slide 3"></button>
+      <button class="carousel-dot" aria-label="Slide 4"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ESTATÍSTICAS ═══════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Nossos Números</span>
+      <h2 class="section-title">Resultados que falam por si</h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card fade-in">
+        <div class="stat-icon"><i class="fa-solid fa-box-open"></i></div>
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Itens Devolvidos</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Satisfação</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+        <div class="stat-number">10</div>
+        <div class="stat-label">Anos de Serviço</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="stat-number">1.2k+</div>
+        <div class="stat-label">Usuários Cadastrados</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ÚLTIMOS ITENS ═══════════════════ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Recentemente Encontrados</span>
+      <h2 class="section-title">Últimos itens cadastrados</h2>
+      <p class="section-subtitle">Confira os itens encontrados recentemente no campus. Reconheceu algo seu?</p>
+      <div class="title-line"></div>
+    </div>
+    <div class="items-grid">
+      <div class="item-card fade-in">
+        <div class="item-card-header">
+          <div class="item-card-icon"><i class="fa-solid fa-backpack"></i></div>
+        </div>
+        <div class="item-card-body">
+          <span class="item-tag">Encontrado</span>
+          <div class="item-name">Mochila Escolar Preta</div>
+          <div class="item-date"><i class="fa-regular fa-calendar"></i> 10/04/2025 &nbsp;·&nbsp; <i class="fa-solid fa-location-dot"></i> Corredor B</div>
+        </div>
+      </div>
+      <div class="item-card fade-in">
+        <div class="item-card-header">
+          <div class="item-card-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+        </div>
+        <div class="item-card-body">
+          <span class="item-tag">Encontrado</span>
+          <div class="item-name">Celular Samsung Galaxy</div>
+          <div class="item-date"><i class="fa-regular fa-calendar"></i> 08/04/2025 &nbsp;·&nbsp; <i class="fa-solid fa-location-dot"></i> Sala 12</div>
+        </div>
+      </div>
+      <div class="item-card fade-in">
+        <div class="item-card-header">
+          <div class="item-card-icon"><i class="fa-solid fa-glasses"></i></div>
+        </div>
+        <div class="item-card-body">
+          <span class="item-tag">Encontrado</span>
+          <div class="item-name">Óculos de Grau</div>
+          <div class="item-date"><i class="fa-regular fa-calendar"></i> 05/04/2025 &nbsp;·&nbsp; <i class="fa-solid fa-location-dot"></i> Cantina</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;">
+      <a href="login.html" class="btn btn-bordo"><i class="fa-solid fa-list"></i> Ver todos os itens</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ SERVIÇOS (resumo) ═══════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">O Que Oferecemos</span>
+      <h2 class="section-title">Nossos serviços para você</h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="cards-grid">
+      <div class="card fade-in">
+        <div class="card-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+        <div class="card-title">Registro de Itens</div>
+        <div class="card-text">Cadastre itens encontrados ou perdidos de forma simples e rápida, com foto e descrição.</div>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div class="card-title">Busca Online</div>
+        <div class="card-text">Pesquise itens por categoria, data ou localização dentro do campus sem sair de casa.</div>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon"><i class="fa-solid fa-envelope-circle-check"></i></div>
+        <div class="card-title">Notificação por E-mail</div>
+        <div class="card-text">Seja notificado automaticamente quando um item com seu perfil for cadastrado no sistema.</div>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon"><i class="fa-solid fa-handshake"></i></div>
+        <div class="card-title">Devolução Assistida</div>
+        <div class="card-text">Nossa equipe verifica identidade e acompanha a entrega segura do objeto ao dono.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;">
+      <a href="produtos-servicos.html" class="btn btn-gold"><i class="fa-solid fa-arrow-right"></i> Ver todos os serviços</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ DEPOIMENTOS ═══════════════════ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Comunidade Fala</span>
+      <h2 class="section-title">O que dizem sobre a APETEC</h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="testimonials-carousel">
+      <div class="testimonials-track">
+
+        <div class="testimonial-slide">
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">Perdi minha carteira com todos os documentos numa sexta-feira. Na segunda já estava de volta, graças à equipe da APETEC. Foram incrivelmente rápidos e atenciosos!</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+              <div>
+                <div class="testimonial-name">Ana Paula Ferreira</div>
+                <div class="testimonial-role">Aluna – Técnico em Informática</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">Como professora, indico a APETEC para todos os meus alunos. O sistema é moderno e a equipe é muito comprometida com a comunidade escolar.</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar"><i class="fa-solid fa-chalkboard-user"></i></div>
+              <div>
+                <div class="testimonial-name">Prof.ª Márcia Oliveira</div>
+                <div class="testimonial-role">Professora de Administração</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-slide">
+          <div class="testimonial-card">
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">Recuperamos um anel de formatura de alto valor sentimental em menos de 24 horas! O trabalho da APETEC é um diferencial único nesta escola.</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar"><i class="fa-solid fa-user-tie"></i></div>
+              <div>
+                <div class="testimonial-name">Roberto Nascimento</div>
+                <div class="testimonial-role">Funcionário – Coordenação</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="testimonials-nav">
+        <button class="test-dot active"></button>
+        <button class="test-dot"></button>
+        <button class="test-dot"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CASES / PROJETOS ═══════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Ações & Projetos</span>
+      <h2 class="section-title">Muito além dos achados</h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="cards-grid">
+      <div class="card fade-in">
+        <div class="card-icon"><i class="fa-solid fa-ring"></i></div>
+        <div class="card-title">Case de Sucesso</div>
+        <div class="card-text">Como devolvemos um anel de formatura perdido em menos de 24 horas. Uma história real de dedicação e tecnologia.</div>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon"><i class="fa-solid fa-glasses"></i></div>
+        <div class="card-title">Campanha "Doe um Sorriso"</div>
+        <div class="card-text">Arrecadação de óculos para comunidade carente. Sua doação transforma vidas. Próxima edição: maio/2025.</div>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon"><i class="fa-solid fa-gift"></i></div>
+        <div class="card-title">Mês do Estudante</div>
+        <div class="card-text">Brinde especial para quem encontrar e devolver um item no mês de maio. Valorize a honestidade!</div>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon"><i class="fa-solid fa-seedling"></i></div>
+        <div class="card-title">APETEC Jovem Aprendiz</div>
+        <div class="card-text">Programa de voluntariado para alunos da ETEC. Aprenda gestão, responsabilidade e cidadania na prática.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CTA ═══════════════════ -->
+<div class="cta-banner">
+  <h2>Pronto para recuperar o que é seu?</h2>
+  <p>Acesse o sistema agora e veja se seu item foi encontrado no campus da ETEC de Itaquera.</p>
+  <a href="login.html" class="btn btn-gold btn-lg"><i class="fa-solid fa-right-to-bracket"></i> Acessar Sistema APETEC</a>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <a href="index.html" class="nav-logo" style="margin-bottom:0">
+        <div class="nav-logo-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+        <div class="nav-logo-text">
+          <span>APETEC</span>
+          <span>ETEC de Itaquera</span>
+        </div>
+      </a>
+      <p class="footer-brand-desc">Sistema de Achados e Perdidos da Escola Técnica Estadual de Itaquera. Devolvendo o que é seu desde 2014.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="social-link" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#" class="social-link" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navegação</h4>
+      <div class="footer-links">
+        <a href="index.html"><i class="fa-solid fa-chevron-right"></i> Início</a>
+        <a href="sobre.html"><i class="fa-solid fa-chevron-right"></i> Sobre Nós</a>
+        <a href="produtos-servicos.html"><i class="fa-solid fa-chevron-right"></i> Serviços</a>
+        <a href="blog.html"><i class="fa-solid fa-chevron-right"></i> Blog / Notícias</a>
+        <a href="contato.html"><i class="fa-solid fa-chevron-right"></i> Contato</a>
+        <a href="politicas.html"><i class="fa-solid fa-chevron-right"></i> Políticas de Privacidade</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <div class="footer-links">
+        <a href="politicas.html"><i class="fa-solid fa-chevron-right"></i> Política de Privacidade</a>
+        <a href="politicas.html"><i class="fa-solid fa-chevron-right"></i> Termos de Uso</a>
+        <a href="politicas.html"><i class="fa-solid fa-chevron-right"></i> Cookies</a>
+        <a href="login.html"><i class="fa-solid fa-chevron-right"></i> Área Restrita</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <div class="footer-contact-item"><i class="fa-solid fa-location-dot"></i><span>Rua Itaquera, 500 – Itaquera, São Paulo – SP</span></div>
+      <div class="footer-contact-item"><i class="fa-solid fa-phone"></i><span>(11) 99999-9999</span></div>
+      <div class="footer-contact-item"><i class="fa-solid fa-envelope"></i><span>contato@apetec.com</span></div>
+      <div class="footer-contact-item"><i class="fa-solid fa-clock"></i><span>Seg–Sex, 8h às 17h</span></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 APETEC – ETEC de Itaquera. Todos os direitos reservados.</span>
+    <div class="footer-bottom-links">
+      <a href="politicas.html">Privacidade</a>
+      <a href="politicas.html">Termos</a>
+      <a href="contato.html">Suporte</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

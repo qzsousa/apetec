@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>APETEC – Sistema Interno</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700;900&display=swap');
+
+/* ═══════════════════════════════════════════
+   VARIÁVEIS & RESET
+═══════════════════════════════════════════ */
+:root{
+  --b900:#2D0510; --b800:#4A0E17; --b700:#5E1919;
+  --b600:#6B1A1A; --b500:#800020; --b400:#A0293A;
+  --b200:#F5E6E8; --b100:#FAF0F2;
+  --o900:#7A5800; --o800:#B8860B; --o700:#C9970D;
+  --o600:#DAA520; --o500:#D4AF37; --o400:#E8C84A;
+  --o300:#FFD700; --o100:#FFF8E7;
+  --white:#fff; --cream:#FDF8F0;
+  --g50:#fafafa; --g100:#f4f4f5; --g200:#e4e4e7;
+  --g400:#a1a1aa; --g600:#52525b; --g800:#27272a;
+  --r-sm:8px; --r-md:14px; --r-lg:18px; --r-xl:24px;
+  --sd-sm:0 2px 8px rgba(74,14,23,.10);
+  --sd-md:0 4px 20px rgba(74,14,23,.13);
+  --sd-lg:0 12px 40px rgba(74,14,23,.18);
+  --sd-gold:0 4px 18px rgba(212,175,55,.28);
+  --tr:.22s ease;
+  --sidebar:240px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Lato',sans-serif;background:var(--g50);color:var(--g800);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+img{max-width:100%;display:block;}
+input,select,textarea,button{font-family:inherit;}
+
+/* ═══════════════════════════════════════════
+   UTILITÁRIOS
+═══════════════════════════════════════════ */
+.hidden{display:none!important;}
+.flex{display:flex;} .flex-col{flex-direction:column;}
+.items-center{align-items:center;} .justify-between{justify-content:space-between;}
+.gap-4{gap:4px;} .gap-8{gap:8px;} .gap-12{gap:12px;} .gap-16{gap:16px;} .gap-24{gap:24px;}
+.text-sm{font-size:.82rem;} .text-xs{font-size:.72rem;}
+.font-bold{font-weight:700;} .font-black{font-weight:900;}
+.text-center{text-align:center;}
+
+/* ═══════════════════════════════════════════
+   TELA DE LOGIN
+═══════════════════════════════════════════ */
+#screen-login{
+  min-height:100vh;
+  background:linear-gradient(135deg,var(--b900) 0%,var(--b700) 55%,var(--b600) 100%);
+  display:flex; align-items:center; justify-content:center; padding:24px 16px;
+  position:relative;
+}
+#screen-login::before{
+  content:''; position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.login-card{
+  background:var(--white); border-radius:var(--r-xl);
+  box-shadow:0 24px 64px rgba(45,5,16,.35);
+  padding:44px 40px 36px; width:100%; max-width:460px;
+  border:1px solid rgba(212,175,55,.15); position:relative; z-index:1;
+  animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+.login-logo{
+  width:64px; height:64px; margin:0 auto 14px;
+  background:linear-gradient(135deg,var(--o600),var(--o800));
+  border-radius:16px; display:flex; align-items:center; justify-content:center;
+  font-size:26px; color:var(--b900); box-shadow:var(--sd-gold); position:relative;
+}
+.login-logo .badge{
+  position:absolute; bottom:-4px; right:-4px; width:20px; height:20px;
+  background:linear-gradient(135deg,var(--b600),var(--b800));
+  border-radius:50%; border:2px solid var(--white);
+  display:flex; align-items:center; justify-content:center;
+  font-size:8px; color:var(--o400);
+}
+.login-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--b700);text-align:center;margin-bottom:4px;}
+.login-sub{font-size:.82rem;color:var(--g400);text-align:center;margin-bottom:24px;}
+.login-divider{height:1px;background:linear-gradient(to right,transparent,rgba(212,175,55,.25),transparent);margin:0 0 22px;}
+
+.l-group{margin-bottom:14px;}
+.l-label{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--b600);margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.l-label i{font-size:10px;color:var(--o700);}
+.l-wrap{position:relative;}
+.l-input{
+  width:100%; padding:11px 14px 11px 38px;
+  background:var(--g100); border:1.5px solid var(--g200);
+  border-radius:var(--r-sm); font-size:.9rem; color:var(--g800);
+  outline:none; transition:border-color var(--tr),box-shadow var(--tr),background var(--tr);
+}
+.l-input:focus{border-color:var(--o600);background:var(--white);box-shadow:0 0 0 3px rgba(218,165,32,.14);}
+.l-input.err{border-color:var(--b500);background:var(--b200);}
+.l-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#b0b0b0;font-size:13px;pointer-events:none;transition:color var(--tr);}
+.l-input:focus~.l-icon{color:var(--o700);}
+.l-eye{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#b0b0b0;font-size:13px;transition:color var(--tr);}
+.l-eye:hover{color:var(--b500);}
+
+.l-hint{font-size:.72rem;color:var(--g400);margin-top:20px;text-align:center;padding:10px;background:var(--o100);border-radius:var(--r-sm);border:1px solid rgba(218,165,32,.2);}
+.l-hint strong{color:var(--b600);}
+
+#loginAlert{
+  display:none; align-items:center; gap:8px;
+  padding:10px 14px; border-radius:var(--r-sm); margin-bottom:14px;
+  font-size:.83rem; font-weight:600; color:var(--b600);
+  background:var(--b200); border:1px solid rgba(128,0,32,.2);
+}
+#loginAlert.show{display:flex;}
+
+.btn-login-main{
+  width:100%; padding:13px; margin-top:4px;
+  background:linear-gradient(135deg,var(--b700),var(--b500));
+  color:var(--o400); font-size:.93rem; font-weight:900;
+  border:none; border-radius:var(--r-sm); cursor:pointer;
+  letter-spacing:.04em; box-shadow:0 4px 16px rgba(128,0,32,.28);
+  transition:opacity var(--tr),transform var(--tr);
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn-login-main:hover{opacity:.9;transform:translateY(-1px);}
+
+/* ═══════════════════════════════════════════
+   LAYOUT INTERNO (sidebar + main)
+═══════════════════════════════════════════ */
+.app-shell{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar); flex-shrink:0;
+  background:linear-gradient(180deg,var(--b900) 0%,var(--b800) 100%);
+  display:flex; flex-direction:column;
+  border-right:2px solid var(--o800); position:fixed; top:0; left:0;
+  height:100vh; z-index:100; overflow-y:auto;
+  transition:transform var(--tr);
+}
+.sidebar-logo{
+  display:flex; align-items:center; gap:10px;
+  padding:20px 20px 16px;
+  border-bottom:1px solid rgba(212,175,55,.15);
+}
+.sidebar-logo-icon{
+  width:38px; height:38px; flex-shrink:0;
+  background:linear-gradient(135deg,var(--o600),var(--o800));
+  border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:var(--b900); box-shadow:var(--sd-gold);
+}
+.sidebar-logo-text span:first-child{display:block;font-family:'Playfair Display',serif;font-size:1rem;color:var(--o300);font-weight:700;line-height:1.1;}
+.sidebar-logo-text span:last-child{display:block;font-size:.6rem;color:var(--o500);letter-spacing:.08em;text-transform:uppercase;}
+
+.sidebar-user{
+  padding:14px 16px; margin:8px;
+  background:rgba(212,175,55,.07); border-radius:var(--r-sm);
+  border:1px solid rgba(212,175,55,.12); display:flex; align-items:center; gap:10px;
+}
+.sidebar-avatar{
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg,var(--b500),var(--b400));
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:var(--o400); border:2px solid var(--o600);
+}
+.sidebar-username{font-size:.82rem;color:var(--o400);font-weight:700;}
+.sidebar-role{font-size:.68rem;color:rgba(212,175,55,.45);text-transform:uppercase;letter-spacing:.06em;}
+
+.sidebar-nav{flex:1; padding:8px 0;}
+.sidebar-section-label{
+  font-size:.62rem; font-weight:900; text-transform:uppercase;
+  letter-spacing:.12em; color:rgba(212,175,55,.35);
+  padding:12px 20px 4px;
+}
+.sidebar-link{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 20px; font-size:.84rem; font-weight:700;
+  color:rgba(212,175,55,.5); cursor:pointer;
+  transition:background var(--tr),color var(--tr); border:none; background:none; width:100%; text-align:left;
+}
+.sidebar-link i{width:16px; font-size:14px; flex-shrink:0;}
+.sidebar-link:hover,.sidebar-link.active{background:rgba(212,175,55,.1);color:var(--o400);}
+.sidebar-link.active{border-right:3px solid var(--o600);}
+
+.sidebar-bottom{padding:12px 16px 20px; border-top:1px solid rgba(212,175,55,.1);}
+.btn-logout{
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; padding:10px;
+  background:rgba(128,0,32,.15); border:1px solid rgba(128,0,32,.3);
+  border-radius:var(--r-sm); color:rgba(218,165,32,.7);
+  font-size:.82rem; font-weight:700; cursor:pointer;
+  transition:background var(--tr),color var(--tr);
+}
+.btn-logout:hover{background:rgba(128,0,32,.3);color:var(--o400);}
+
+/* MAIN AREA */
+.main-area{
+  margin-left:var(--sidebar); flex:1; display:flex; flex-direction:column; min-height:100vh;
+}
+
+/* TOPBAR */
+.topbar{
+  background:var(--white); border-bottom:1px solid var(--g200);
+  padding:0 28px; height:64px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:50; gap:16px;
+  box-shadow:0 2px 8px rgba(74,14,23,.06);
+}
+.topbar-title{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--b700);font-weight:700;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-search{
+  display:flex; align-items:center; gap:8px;
+  background:var(--g100); border:1.5px solid var(--g200);
+  border-radius:24px; padding:7px 16px; min-width:220px;
+}
+.topbar-search input{background:none;border:none;outline:none;font-size:.85rem;color:var(--g800);flex:1;}
+.topbar-search input::placeholder{color:var(--g400);}
+.topbar-search i{color:var(--g400);font-size:13px;}
+.notif-btn{
+  position:relative; width:38px; height:38px;
+  background:var(--g100); border:none; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--g600); font-size:16px;
+  transition:background var(--tr);
+}
+.notif-btn:hover{background:var(--b200);color:var(--b500);}
+.notif-badge{
+  position:absolute; top:-2px; right:-2px;
+  width:17px; height:17px; border-radius:50%;
+  background:linear-gradient(135deg,var(--b500),var(--b700));
+  color:var(--o400); font-size:.6rem; font-weight:900;
+  display:flex; align-items:center; justify-content:center;
+  border:2px solid var(--white);
+}
+.topbar-user{
+  display:flex; align-items:center; gap:8px; font-size:.83rem; font-weight:700; color:var(--b700);
+}
+.topbar-avatar{
+  width:34px; height:34px; border-radius:50%;
+  background:linear-gradient(135deg,var(--b500),var(--b400));
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; color:var(--o400); border:2px solid var(--o600);
+  flex-shrink:0;
+}
+
+/* CONTENT */
+.content{padding:28px;flex:1;}
+.page-header{margin-bottom:24px;}
+.page-header h1{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--b700);margin-bottom:4px;}
+.page-header p{font-size:.85rem;color:var(--g400);}
+
+/* SECTION TABS */
+.tab-bar{display:flex;gap:4px;background:var(--g100);padding:4px;border-radius:var(--r-md);margin-bottom:24px;flex-wrap:wrap;}
+.tab-btn{
+  padding:8px 18px; border:none; background:none; border-radius:10px;
+  font-size:.83rem; font-weight:700; color:var(--g600); cursor:pointer;
+  transition:background var(--tr),color var(--tr); white-space:nowrap;
+}
+.tab-btn.active{background:var(--white);color:var(--b700);box-shadow:var(--sd-sm);}
+
+/* ═══════════════════════════════════════════
+   CARDS / STATS
+═══════════════════════════════════════════ */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px;}
+.stat-card{
+  background:var(--white); border-radius:var(--r-lg);
+  padding:20px; border:1.5px solid rgba(212,175,55,.15);
+  box-shadow:var(--sd-sm); transition:transform var(--tr),box-shadow var(--tr);
+}
+.stat-card:hover{transform:translateY(-3px);box-shadow:var(--sd-md);}
+.stat-icon{
+  width:44px; height:44px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; margin-bottom:12px;
+}
+.stat-icon.gold{background:linear-gradient(135deg,var(--o600),var(--o800));color:var(--b900);}
+.stat-icon.bordo{background:linear-gradient(135deg,var(--b600),var(--b500));color:var(--o400);}
+.stat-icon.green{background:linear-gradient(135deg,#059669,#047857);color:#fff;}
+.stat-icon.amber{background:linear-gradient(135deg,#d97706,#b45309);color:#fff;}
+.stat-icon.blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;}
+.stat-number{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--b700);line-height:1;}
+.stat-label{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--g400);margin-top:4px;}
+
+/* CARDS GENÉRICOS */
+.card{
+  background:var(--white); border-radius:var(--r-lg);
+  border:1.5px solid rgba(212,175,55,.12);
+  box-shadow:var(--sd-sm); padding:24px;
+  margin-bottom:20px;
+}
+.card-title{
+  font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--b700);
+  font-weight:600; margin-bottom:16px; display:flex; align-items:center; gap:8px;
+}
+.card-title i{color:var(--o700);font-size:.9rem;}
+
+/* ═══════════════════════════════════════════
+   BOTÕES
+═══════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 18px; border-radius:var(--r-sm); font-size:.83rem; font-weight:700;
+  cursor:pointer; border:none; transition:opacity var(--tr),transform var(--tr);
+  white-space:nowrap; letter-spacing:.03em;
+}
+.btn:hover{opacity:.88;transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+.btn-gold{background:linear-gradient(135deg,var(--o600),var(--o800));color:var(--b900);box-shadow:var(--sd-gold);}
+.btn-bordo{background:linear-gradient(135deg,var(--b600),var(--b500));color:var(--o400);box-shadow:var(--sd-md);}
+.btn-outline{background:transparent;border:1.5px solid var(--o600);color:var(--o800);}
+.btn-outline:hover{background:var(--o100);}
+.btn-sm{padding:6px 13px;font-size:.77rem;}
+.btn-lg{padding:12px 26px;font-size:.92rem;}
+.btn-danger{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;}
+.btn-success{background:linear-gradient(135deg,#059669,#047857);color:#fff;}
+.btn-gray{background:var(--g200);color:var(--g800);}
+
+/* QUICK ACTIONS */
+.quick-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;}
+.qa-btn{
+  padding:20px 16px; border-radius:var(--r-lg); border:1.5px solid rgba(212,175,55,.15);
+  background:var(--white); box-shadow:var(--sd-sm); cursor:pointer;
+  text-align:center; transition:transform var(--tr),box-shadow var(--tr),border-color var(--tr);
+}
+.qa-btn:hover{transform:translateY(-3px);box-shadow:var(--sd-gold);border-color:rgba(218,165,32,.4);}
+.qa-icon{font-size:28px;margin-bottom:10px;display:block;}
+.qa-label{font-size:.78rem;font-weight:700;color:var(--b700);}
+
+/* ═══════════════════════════════════════════
+   TABELAS
+═══════════════════════════════════════════ */
+.table-wrap{overflow-x:auto;border-radius:var(--r-lg);border:1.5px solid rgba(212,175,55,.12);}
+table{width:100%;border-collapse:collapse;background:var(--white);}
+thead tr{background:linear-gradient(135deg,var(--b800),var(--b700));}
+th{
+  padding:12px 16px; text-align:left; font-size:.72rem; font-weight:900;
+  text-transform:uppercase; letter-spacing:.08em; color:var(--o400);
+  white-space:nowrap;
+}
+td{
+  padding:12px 16px; font-size:.85rem; color:var(--g600);
+  border-bottom:1px solid var(--g100);
+}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(250,240,242,.4);}
+td strong{color:var(--b700);}
+
+/* Status badges */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px; border-radius:20px;
+  font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+  white-space:nowrap;
+}
+.badge-waiting{background:#fff7ed;color:#c2410c;border:1px solid rgba(194,65,12,.2);}
+.badge-done{background:#ecfdf5;color:#065f46;border:1px solid rgba(6,95,70,.2);}
+.badge-old{background:var(--b200);color:var(--b600);border:1px solid rgba(128,0,32,.2);}
+.badge-found{background:#eff6ff;color:#1e40af;border:1px solid rgba(30,64,175,.2);}
+.badge-active{background:#ecfdf5;color:#065f46;border:1px solid rgba(6,95,70,.2);}
+.badge-inactive{background:var(--g100);color:var(--g400);border:1px solid var(--g200);}
+.badge-analysis{background:var(--o100);color:var(--o900);border:1px solid rgba(218,165,32,.25);}
+.badge-approved{background:#ecfdf5;color:#065f46;border:1px solid rgba(6,95,70,.2);}
+.badge-denied{background:var(--b200);color:var(--b500);border:1px solid rgba(128,0,32,.2);}
+
+/* ═══════════════════════════════════════════
+   GRÁFICOS
+═══════════════════════════════════════════ */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px;}
+.chart-card{background:var(--white);border-radius:var(--r-lg);padding:20px;border:1.5px solid rgba(212,175,55,.12);box-shadow:var(--sd-sm);}
+.chart-card h3{font-size:.82rem;font-weight:700;color:var(--b700);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.chart-card h3 i{color:var(--o700);}
+.chart-container{position:relative;height:160px;}
+/* Donut placeholder */
+.donut-wrap{display:flex;align-items:center;justify-content:center;height:160px;}
+.donut{position:relative;width:120px;height:120px;}
+.donut svg{transform:rotate(-90deg);}
+.donut-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.donut-pct{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--b700);font-weight:700;line-height:1;}
+.donut-sub{font-size:.65rem;color:var(--g400);text-transform:uppercase;letter-spacing:.05em;}
+/* Bar chart placeholders */
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:120px;padding-top:8px;}
+.bar{flex:1;border-radius:4px 4px 0 0;transition:opacity .2s;background:linear-gradient(180deg,var(--o600),var(--o800));}
+.bar:hover{opacity:.8;}
+.bar-labels{display:flex;gap:6px;margin-top:6px;}
+.bar-label{flex:1;text-align:center;font-size:.62rem;color:var(--g400);}
+/* Locais chart */
+.locs-list{display:flex;flex-direction:column;gap:8px;}
+.loc-row{display:flex;align-items:center;gap:8px;}
+.loc-name{font-size:.78rem;color:var(--b700);font-weight:700;min-width:90px;}
+.loc-bar-bg{flex:1;height:8px;background:var(--g100);border-radius:4px;overflow:hidden;}
+.loc-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--b500),var(--b600));}
+.loc-pct{font-size:.7rem;color:var(--g400);min-width:32px;text-align:right;}
+
+/* ═══════════════════════════════════════════
+   ALERTAS / NOTIFICAÇÕES
+═══════════════════════════════════════════ */
+.alert-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.alert-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:12px 14px; border-radius:var(--r-sm); font-size:.83rem;
+}
+.alert-warn{background:#fff7ed;border:1px solid rgba(234,88,12,.2);color:#9a3412;}
+.alert-danger{background:var(--b200);border:1px solid rgba(128,0,32,.2);color:var(--b600);}
+.alert-info{background:#eff6ff;border:1px solid rgba(59,130,246,.2);color:#1e40af;}
+.alert-item i{margin-top:2px;flex-shrink:0;}
+
+/* ═══════════════════════════════════════════
+   LOG DE ATIVIDADES
+═══════════════════════════════════════════ */
+.log-list{display:flex;flex-direction:column;gap:0;}
+.log-item{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:10px 0; border-bottom:1px solid var(--g100);
+}
+.log-item:last-child{border-bottom:none;}
+.log-dot{width:8px;height:8px;border-radius:50%;background:var(--o600);flex-shrink:0;margin-top:5px;}
+.log-text{font-size:.82rem;color:var(--g600);line-height:1.5;}
+.log-text strong{color:var(--b700);}
+.log-time{font-size:.72rem;color:var(--g400);white-space:nowrap;margin-left:auto;}
+
+/* ═══════════════════════════════════════════
+   BUSCA USUÁRIO
+═══════════════════════════════════════════ */
+.search-hero{
+  background:linear-gradient(135deg,var(--b900),var(--b700));
+  border-radius:var(--r-xl); padding:36px 32px; margin-bottom:24px;
+  position:relative; overflow:hidden;
+}
+.search-hero::before{
+  content:''; position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4AF37' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.search-hero h2{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--o300);margin-bottom:6px;position:relative;}
+.search-hero p{font-size:.85rem;color:rgba(253,248,240,.6);margin-bottom:20px;position:relative;}
+.search-bar-big{
+  display:flex;gap:10px;position:relative;flex-wrap:wrap;
+}
+.search-input-big{
+  flex:1;min-width:200px;padding:13px 18px;
+  background:rgba(255,255,255,.1); border:1.5px solid rgba(212,175,55,.25);
+  border-radius:var(--r-sm); color:var(--cream); font-size:.92rem;
+  outline:none; transition:border-color var(--tr),background var(--tr);
+}
+.search-input-big::placeholder{color:rgba(253,248,240,.4);}
+.search-input-big:focus{border-color:var(--o500);background:rgba(255,255,255,.15);}
+.search-filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;position:relative;}
+.search-select{
+  padding:8px 12px; background:rgba(255,255,255,.08);
+  border:1.5px solid rgba(212,175,55,.2); border-radius:var(--r-sm);
+  color:rgba(253,248,240,.75); font-size:.82rem; cursor:pointer; outline:none;
+}
+.search-select option{background:var(--b900);color:var(--cream);}
+
+/* CATEGORIAS */
+.categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-bottom:24px;}
+.cat-btn{
+  padding:16px 10px; border-radius:var(--r-lg);
+  background:var(--white); border:1.5px solid rgba(212,175,55,.15);
+  box-shadow:var(--sd-sm); cursor:pointer; text-align:center;
+  transition:transform var(--tr),box-shadow var(--tr),border-color var(--tr);
+}
+.cat-btn:hover{transform:translateY(-3px);box-shadow:var(--sd-gold);border-color:rgba(218,165,32,.4);}
+.cat-emoji{font-size:24px;display:block;margin-bottom:6px;}
+.cat-name{font-size:.72rem;font-weight:700;color:var(--b700);}
+
+/* ITEM CARDS */
+.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:24px;}
+.item-card{
+  background:var(--white); border-radius:var(--r-lg);
+  border:1.5px solid rgba(212,175,55,.12); box-shadow:var(--sd-sm);
+  overflow:hidden; transition:transform var(--tr),box-shadow var(--tr);
+}
+.item-card:hover{transform:translateY(-4px);box-shadow:var(--sd-md);}
+.item-thumb{
+  height:120px; display:flex; align-items:center; justify-content:center;
+  font-size:52px;
+  background:linear-gradient(135deg,var(--b900),var(--b700));
+}
+.item-body{padding:14px;}
+.item-name{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--b700);font-weight:600;margin-bottom:4px;}
+.item-meta{font-size:.76rem;color:var(--g400);margin-bottom:10px;display:flex;flex-direction:column;gap:2px;}
+.item-meta span{display:flex;align-items:center;gap:4px;}
+.item-meta i{color:var(--o700);}
+
+/* SOLICITAÇÕES */
+.req-list{display:flex;flex-direction:column;gap:10px;}
+.req-item{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 16px; background:var(--white);
+  border-radius:var(--r-md); border:1.5px solid rgba(212,175,55,.1);
+  box-shadow:var(--sd-sm);
+}
+.req-name{font-size:.87rem;font-weight:700;color:var(--b700);}
+.req-date{font-size:.74rem;color:var(--g400);}
+
+/* ═══════════════════════════════════════════
+   MODAL GENÉRICO
+═══════════════════════════════════════════ */
+.modal-backdrop{
+  display:none;position:fixed;inset:0;
+  background:rgba(45,5,16,.5);backdrop-filter:blur(4px);
+  z-index:500;align-items:center;justify-content:center;padding:20px;
+}
+.modal-backdrop.open{display:flex;}
+.modal-box{
+  background:var(--white);border-radius:var(--r-xl);
+  width:100%;max-width:480px;max-height:90vh;overflow-y:auto;
+  box-shadow:var(--sd-lg);border:1.5px solid rgba(212,175,55,.12);
+  animation:fadeUp .28s ease both;
+}
+.modal-head{
+  background:linear-gradient(135deg,var(--b800),var(--b700));
+  padding:22px 24px; display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; border-radius:var(--r-xl) var(--r-xl) 0 0;
+}
+.modal-head h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--o300);font-weight:600;}
+.modal-close{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.2);
+  color:var(--o400);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:14px;transition:background var(--tr);
+}
+.modal-close:hover{background:rgba(212,175,55,.25);}
+.modal-body{padding:24px;}
+.m-group{margin-bottom:16px;}
+.m-label{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--b600);margin-bottom:6px;display:block;}
+.m-input,.m-select,.m-textarea{
+  width:100%;padding:10px 13px;background:var(--g100);
+  border:1.5px solid var(--g200);border-radius:var(--r-sm);
+  font-size:.88rem;color:var(--g800);outline:none;
+  transition:border-color var(--tr);font-family:inherit;
+}
+.m-input:focus,.m-select:focus,.m-textarea:focus{border-color:var(--o600);background:var(--white);box-shadow:0 0 0 3px rgba(218,165,32,.12);}
+.m-textarea{resize:vertical;min-height:100px;}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;padding-top:8px;}
+
+/* NOTIF DROPDOWN */
+.notif-dropdown{
+  display:none;position:absolute;top:calc(100% + 8px);right:0;
+  width:300px;background:var(--white);border-radius:var(--r-lg);
+  box-shadow:var(--sd-lg);border:1.5px solid rgba(212,175,55,.12);
+  z-index:200;overflow:hidden;
+}
+.notif-dropdown.open{display:block;}
+.notif-header{
+  background:linear-gradient(135deg,var(--b800),var(--b700));
+  padding:12px 16px; font-size:.78rem; font-weight:700; color:var(--o400);
+  display:flex; align-items:center; gap:6px;
+}
+.notif-item{padding:12px 16px;border-bottom:1px solid var(--g100);cursor:pointer;transition:background var(--tr);}
+.notif-item:hover{background:var(--g50);}
+.notif-item:last-child{border-bottom:none;}
+.notif-item strong{font-size:.82rem;color:var(--b700);display:block;margin-bottom:2px;}
+.notif-item span{font-size:.74rem;color:var(--g400);}
+.notif-wrap{position:relative;}
+
+/* FILTROS */
+.filter-bar{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;
+  padding:16px;background:var(--g50);border-radius:var(--r-md);
+  border:1px solid var(--g200);margin-bottom:16px;
+}
+.filter-group{display:flex;flex-direction:column;gap:4px;min-width:140px;}
+.filter-group label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--b600);}
+.filter-input,.filter-select{
+  padding:8px 12px;background:var(--white);
+  border:1.5px solid var(--g200);border-radius:var(--r-sm);
+  font-size:.84rem;color:var(--g800);outline:none;
+}
+.filter-input:focus,.filter-select:focus{border-color:var(--o600);}
+
+/* SECTION VISIBILITY */
+[data-section]{display:none;}
+[data-section].section-active{display:block;}
+#screen-admin,#screen-func,#screen-user{display:none;}
+#screen-admin.active,#screen-func.active,#screen-user.active{display:flex;}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVO
+═══════════════════════════════════════════ */
+.mobile-menu-btn{
+  display:none;background:none;border:none;
+  color:var(--b700);font-size:20px;cursor:pointer;padding:4px;
+}
+@media(max-width:900px){
+  .charts-grid{grid-template-columns:1fr;}
+  .sidebar{transform:translateX(-100%);z-index:200;}
+  .sidebar.mobile-open{transform:translateX(0);}
+  .main-area{margin-left:0;}
+  .mobile-menu-btn{display:flex;align-items:center;}
+  .topbar{padding:0 16px;}
+  .content{padding:16px;}
+  .topbar-search{display:none;}
+}
+@media(max-width:640px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .quick-actions{grid-template-columns:1fr 1fr;}
+  .items-grid{grid-template-columns:1fr 1fr;}
+  .categories-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:420px){
+  .stats-grid{grid-template-columns:1fr;}
+  .items-grid{grid-template-columns:1fr;}
+  .categories-grid{grid-template-columns:repeat(2,1fr);}
+  .login-card{padding:28px 20px 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     TELA DE LOGIN
+════════════════════════════════════════════ -->
+<div id="screen-login">
+  <div class="login-card">
+    <div class="login-logo">
+      <i class="fa-solid fa-magnifying-glass-location"></i>
+      <span class="badge"><i class="fa-solid fa-lock" style="font-size:7px"></i></span>
+    </div>
+    <div class="login-title">Área Restrita</div>
+    <div class="login-sub">APETEC – ETEC de Itaquera</div>
+    <div class="login-divider"></div>
+
+    <div id="loginAlert">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span id="loginAlertText">Credenciais inválidas.</span>
+    </div>
+
+    <div class="l-group">
+      <div class="l-label"><i class="fa-solid fa-envelope"></i> E-mail</div>
+      <div class="l-wrap">
+        <input class="l-input" type="email" id="loginEmail" placeholder="seu@email.com"/>
+        <i class="fa-regular fa-envelope l-icon"></i>
+      </div>
+    </div>
+    <div class="l-group">
+      <div class="l-label"><i class="fa-solid fa-lock"></i> Senha</div>
+      <div class="l-wrap">
+        <input class="l-input" type="password" id="loginPass" placeholder="••••••••"/>
+        <i class="fa-solid fa-lock l-icon"></i>
+        <button class="l-eye" id="loginEye" type="button"><i class="fa-regular fa-eye" id="loginEyeIcon"></i></button>
+      </div>
+    </div>
+
+    <button class="btn-login-main" onclick="doLogin()">
+      <i class="fa-solid fa-right-to-bracket"></i> Entrar
+    </button>
+
+    <div class="l-hint">
+      <strong>Admin:</strong> admin@exemplo.com / admin123 &nbsp;|&nbsp;
+      <strong>Func:</strong> func@exemplo.com / func123 &nbsp;|&nbsp;
+      <strong>User:</strong> user@exemplo.com / user123
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA DO ADMIN
+════════════════════════════════════════════ -->
+<div id="screen-admin" class="app-shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar-admin">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+      <div class="sidebar-logo-text"><span>APETEC</span><span>ETEC Itaquera</span></div>
+    </div>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar"><i class="fa-solid fa-user-shield"></i></div>
+      <div><div class="sidebar-username">Pablo</div><div class="sidebar-role">Administrador</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Principal</div>
+      <button class="sidebar-link active" onclick="showSection('admin','dashboard')"><i class="fa-solid fa-gauge-high"></i> Dashboard</button>
+      <button class="sidebar-link" onclick="showSection('admin','users')"><i class="fa-solid fa-users"></i> Usuários</button>
+      <button class="sidebar-link" onclick="showSection('admin','items')"><i class="fa-solid fa-boxes-stacked"></i> Itens</button>
+      <button class="sidebar-link" onclick="showSection('admin','devolutions')"><i class="fa-solid fa-handshake"></i> Devoluções</button>
+      <button class="sidebar-link" onclick="showSection('admin','reports')"><i class="fa-solid fa-chart-bar"></i> Relatórios</button>
+      <div class="sidebar-section-label">Sistema</div>
+      <button class="sidebar-link" onclick="showSection('admin','settings')"><i class="fa-solid fa-gear"></i> Configurações</button>
+      <button class="sidebar-link" onclick="showSection('admin','logs')"><i class="fa-solid fa-terminal"></i> Logs do sistema</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="btn-logout" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+    </div>
+  </aside>
+  <!-- MAIN -->
+  <div class="main-area">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="mobile-menu-btn" onclick="toggleSidebar('sidebar-admin')"><i class="fa-solid fa-bars"></i></button>
+        <span class="topbar-title" id="admin-topbar-title">Dashboard</span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Buscar..."/></div>
+        <div class="notif-wrap">
+          <button class="notif-btn" onclick="toggleNotif('notif-admin')">
+            <i class="fa-solid fa-bell"></i>
+            <span class="notif-badge">2</span>
+          </button>
+          <div class="notif-dropdown" id="notif-admin">
+            <div class="notif-header"><i class="fa-solid fa-bell"></i> Notificações</div>
+            <div class="notif-item"><strong>⚠️ Item há 45 dias sem retirada</strong><span>Mochila preta – Sala 12</span></div>
+            <div class="notif-item"><strong>🔴 Tentativa de login suspeita</strong><span>IP desconhecido às 03:42</span></div>
+          </div>
+        </div>
+        <div class="topbar-user"><div class="topbar-avatar"><i class="fa-solid fa-user-shield"></i></div><span>Pablo</span></div>
+      </div>
+    </header>
+    <div class="content">
+
+      <!-- ── DASHBOARD ── -->
+      <div data-section="admin-dashboard" class="section-active">
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <p>Visão geral do sistema APETEC — <span id="admin-date"></span></p>
+        </div>
+
+        <div class="alert-list">
+          <div class="alert-item alert-warn"><i class="fa-solid fa-triangle-exclamation"></i><span><strong>Item há 45 dias sem retirada:</strong> Mochila preta – Sala 12</span></div>
+          <div class="alert-item alert-danger"><i class="fa-solid fa-shield-exclamation"></i><span><strong>Tentativa de login suspeita</strong> detectada às 03:42 de IP desconhecido.</span></div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon gold"><i class="fa-solid fa-boxes-stacked"></i></div><div class="stat-number">48</div><div class="stat-label">Total de itens</div></div>
+          <div class="stat-card"><div class="stat-icon amber"><i class="fa-solid fa-clock"></i></div><div class="stat-number">12</div><div class="stat-label">Aguardando retirada</div></div>
+          <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-check-circle"></i></div><div class="stat-number">30</div><div class="stat-label">Devolvidos</div></div>
+          <div class="stat-card"><div class="stat-icon bordo"><i class="fa-solid fa-hourglass-end"></i></div><div class="stat-number">6</div><div class="stat-label">Vencidos/antigos</div></div>
+          <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-users"></i></div><div class="stat-number">8</div><div class="stat-label">Usuários cadastrados</div></div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3><i class="fa-solid fa-chart-column"></i> Itens por dia</h3>
+            <div class="chart-container"><canvas id="chartBars"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <h3><i class="fa-solid fa-chart-pie"></i> Taxa de devolução</h3>
+            <div class="donut-wrap">
+              <div class="donut">
+                <svg viewBox="0 0 36 36" width="120" height="120">
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f4f4f5" stroke-width="3.2"/>
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="url(#goldGrad)" stroke-width="3.2"
+                    stroke-dasharray="62 38" stroke-linecap="round"/>
+                  <defs><linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#DAA520"/><stop offset="100%" stop-color="#B8860B"/></linearGradient></defs>
+                </svg>
+                <div class="donut-label"><div class="donut-pct">62%</div><div class="donut-sub">devolvidos</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="chart-card">
+            <h3><i class="fa-solid fa-location-dot"></i> Locais com mais ocorrências</h3>
+            <div class="locs-list" style="margin-top:8px;">
+              <div class="loc-row"><span class="loc-name">Sala 12</span><div class="loc-bar-bg"><div class="loc-bar-fill" style="width:72%"></div></div><span class="loc-pct">72%</span></div>
+              <div class="loc-row"><span class="loc-name">Pátio</span><div class="loc-bar-bg"><div class="loc-bar-fill" style="width:55%"></div></div><span class="loc-pct">55%</span></div>
+              <div class="loc-row"><span class="loc-name">Corredor B</span><div class="loc-bar-bg"><div class="loc-bar-fill" style="width:38%"></div></div><span class="loc-pct">38%</span></div>
+              <div class="loc-row"><span class="loc-name">Cantina</span><div class="loc-bar-bg"><div class="loc-bar-fill" style="width:22%"></div></div><span class="loc-pct">22%</span></div>
+              <div class="loc-row"><span class="loc-name">Biblioteca</span><div class="loc-bar-bg"><div class="loc-bar-fill" style="width:15%"></div></div><span class="loc-pct">15%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-bolt"></i> Ações Rápidas</div>
+          <div class="quick-actions">
+            <div class="qa-btn" onclick="showSection('admin','users')"><span class="qa-icon">👤</span><span class="qa-label">Cadastrar usuário</span></div>
+            <div class="qa-btn" onclick="showSection('admin','items')"><span class="qa-icon">📦</span><span class="qa-label">Gerenciar itens</span></div>
+            <div class="qa-btn" onclick="showSection('admin','reports')"><span class="qa-icon">📊</span><span class="qa-label">Gerar relatório</span></div>
+            <div class="qa-btn" onclick="showSection('admin','settings')"><span class="qa-icon">⚙️</span><span class="qa-label">Configurações</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── USUÁRIOS ── -->
+      <div data-section="admin-users">
+        <div class="page-header"><h1>Gerenciar Usuários</h1><p>Gerencie contas, tipos e permissões.</p></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+          <span style="font-size:.85rem;color:var(--g400);">8 usuários cadastrados</span>
+          <button class="btn btn-gold" onclick="openModal('modal-new-user')"><i class="fa-solid fa-plus"></i> Criar usuário</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Status</th><th>Cadastro</th><th>Ação</th></tr></thead>
+            <tbody>
+              <tr><td><strong>João Silva</strong></td><td>joao@etec.com</td><td><span class="badge badge-found">Funcionário</span></td><td><span class="badge badge-active">Ativo</span></td><td>12/01/2025</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-edit-user')"><i class="fa-solid fa-pen"></i> Editar</button></td></tr>
+              <tr><td><strong>Maria Santos</strong></td><td>maria@etec.com</td><td><span class="badge badge-analysis">Admin</span></td><td><span class="badge badge-active">Ativo</span></td><td>05/01/2025</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-edit-user')"><i class="fa-solid fa-pen"></i> Editar</button></td></tr>
+              <tr><td><strong>Carla Mendes</strong></td><td>carla@etec.com</td><td><span class="badge badge-found">Funcionária</span></td><td><span class="badge badge-inactive">Inativa</span></td><td>20/02/2025</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-edit-user')"><i class="fa-solid fa-pen"></i> Editar</button></td></tr>
+              <tr><td><strong>Ana Oliveira</strong></td><td>ana@aluno.etec.com</td><td><span class="badge badge-gray" style="background:var(--g100);color:var(--g600);border:1px solid var(--g200);">Usuário</span></td><td><span class="badge badge-active">Ativo</span></td><td>03/03/2025</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-edit-user')"><i class="fa-solid fa-pen"></i> Editar</button></td></tr>
+              <tr><td><strong>Pablo Admin</strong></td><td>admin@exemplo.com</td><td><span class="badge badge-analysis">Admin</span></td><td><span class="badge badge-active">Ativo</span></td><td>01/01/2025</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-edit-user')"><i class="fa-solid fa-pen"></i> Editar</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── ITENS ── -->
+      <div data-section="admin-items">
+        <div class="page-header"><h1>Gerenciar Itens</h1><p>Lista completa de itens cadastrados no sistema.</p></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+          <span style="font-size:.85rem;color:var(--g400);">48 itens cadastrados</span>
+          <button class="btn btn-gold" onclick="openModal('modal-new-item-admin')"><i class="fa-solid fa-plus"></i> Novo item</button>
+        </div>
+        <div class="filter-bar">
+          <div class="filter-group"><label>Status</label><select class="filter-select"><option>Todos</option><option>Aguardando</option><option>Devolvido</option><option>Vencido</option></select></div>
+          <div class="filter-group"><label>Local</label><select class="filter-select"><option>Todos</option><option>Sala 12</option><option>Pátio</option><option>Corredor B</option><option>Cantina</option></select></div>
+          <div class="filter-group"><label>Data</label><input type="date" class="filter-input"/></div>
+          <button class="btn btn-bordo btn-sm" style="margin-top:18px;"><i class="fa-solid fa-filter"></i> Filtrar</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Local</th><th>Data</th><th>Status</th><th>Responsável</th><th>Ações</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Mochila preta</strong></td><td><i class="fa-solid fa-location-dot" style="color:var(--o700);margin-right:4px;"></i>Sala 12</td><td>10/04/2025</td><td><span class="badge badge-waiting">Aguardando</span></td><td>João</td><td style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn btn-sm btn-outline" onclick="openModal('modal-edit-item')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i></button>
+                <button class="btn btn-sm btn-success" onclick="alert('Histórico: Cadastrado 10/04 por João. Aguardando retirada há 5 dias.')"><i class="fa-solid fa-clock-rotate-left"></i></button>
+              </td></tr>
+              <tr><td><strong>Celular Samsung</strong></td><td><i class="fa-solid fa-location-dot" style="color:var(--o700);margin-right:4px;"></i>Pátio</td><td>12/04/2025</td><td><span class="badge badge-done">Devolvido</span></td><td>Maria</td><td style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn btn-sm btn-outline" onclick="openModal('modal-edit-item')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i></button>
+                <button class="btn btn-sm btn-success" onclick="alert('Histórico: Cadastrado 12/04, devolvido 13/04 para Ana.')"><i class="fa-solid fa-clock-rotate-left"></i></button>
+              </td></tr>
+              <tr><td><strong>Óculos de grau</strong></td><td><i class="fa-solid fa-location-dot" style="color:var(--o700);margin-right:4px;"></i>Cantina</td><td>05/04/2025</td><td><span class="badge badge-waiting">Aguardando</span></td><td>Carla</td><td style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn btn-sm btn-outline" onclick="openModal('modal-edit-item')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i></button>
+                <button class="btn btn-sm btn-success" onclick="alert('Histórico: Cadastrado 05/04. Aguardando há 10 dias.')"><i class="fa-solid fa-clock-rotate-left"></i></button>
+              </td></tr>
+              <tr><td><strong>Carteira marrom</strong></td><td><i class="fa-solid fa-location-dot" style="color:var(--o700);margin-right:4px;"></i>Corredor B</td><td>01/03/2025</td><td><span class="badge badge-old">Vencido</span></td><td>João</td><td style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn btn-sm btn-outline" onclick="openModal('modal-edit-item')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i></button>
+                <button class="btn btn-sm btn-success" onclick="alert('Histórico: Cadastrado 01/03. Sem contato há 45 dias.')"><i class="fa-solid fa-clock-rotate-left"></i></button>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── DEVOLUÇÕES ── -->
+      <div data-section="admin-devolutions">
+        <div class="page-header"><h1>Devoluções</h1><p>Histórico e registro de devoluções realizadas.</p></div>
+        <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);max-width:500px;">
+          <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-check-double"></i></div><div class="stat-number">30</div><div class="stat-label">Total devolvidos</div></div>
+          <div class="stat-card"><div class="stat-icon amber"><i class="fa-solid fa-clock"></i></div><div class="stat-number">12</div><div class="stat-label">Pendentes</div></div>
+          <div class="stat-card"><div class="stat-icon gold"><i class="fa-solid fa-star"></i></div><div class="stat-number">98%</div><div class="stat-label">Satisfação</div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Devolvido para</th><th>Responsável</th><th>Data</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Celular Samsung</strong></td><td>Ana Oliveira</td><td>Maria</td><td>13/04/2025</td><td><span class="badge badge-done">Concluído</span></td></tr>
+              <tr><td><strong>Tênis Nike</strong></td><td>Carlos Pereira</td><td>João</td><td>11/04/2025</td><td><span class="badge badge-done">Concluído</span></td></tr>
+              <tr><td><strong>Mochila azul</strong></td><td>Em análise</td><td>Carla</td><td>08/04/2025</td><td><span class="badge badge-analysis">Em análise</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── RELATÓRIOS ── -->
+      <div data-section="admin-reports">
+        <div class="page-header"><h1>Relatórios</h1><p>Exporte e filtre dados do sistema.</p></div>
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-filter"></i> Filtros</div>
+          <div class="filter-bar" style="margin-bottom:0;">
+            <div class="filter-group"><label>Data inicial</label><input type="date" class="filter-input"/></div>
+            <div class="filter-group"><label>Data final</label><input type="date" class="filter-input"/></div>
+            <div class="filter-group"><label>Local</label><select class="filter-select"><option>Todos</option><option>Sala 12</option><option>Pátio</option><option>Corredor B</option></select></div>
+            <div class="filter-group"><label>Status</label><select class="filter-select"><option>Todos</option><option>Aguardando</option><option>Devolvido</option><option>Vencido</option></select></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+            <button class="btn btn-success" onclick="alert('Exportando Excel... (simulado)')"><i class="fa-solid fa-file-excel"></i> Exportar Excel</button>
+            <button class="btn btn-danger" onclick="alert('Exportando PDF... (simulado)')"><i class="fa-solid fa-file-pdf"></i> Exportar PDF</button>
+            <button class="btn btn-bordo"><i class="fa-solid fa-magnifying-glass"></i> Gerar relatório</button>
+          </div>
+        </div>
+        <div class="card" style="margin-top:20px;">
+          <div class="card-title"><i class="fa-solid fa-table"></i> Resultado (mock)</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Período</th><th>Total itens</th><th>Devolvidos</th><th>Aguardando</th><th>Vencidos</th><th>Taxa devolução</th></tr></thead>
+              <tbody>
+                <tr><td>Abril 2025</td><td>15</td><td>10</td><td>4</td><td>1</td><td><span class="badge badge-done">66%</span></td></tr>
+                <tr><td>Março 2025</td><td>18</td><td>12</td><td>3</td><td>3</td><td><span class="badge badge-done">66%</span></td></tr>
+                <tr><td>Fevereiro 2025</td><td>9</td><td>6</td><td>2</td><td>1</td><td><span class="badge badge-done">66%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CONFIGURAÇÕES ── -->
+      <div data-section="admin-settings">
+        <div class="page-header"><h1>Configurações</h1><p>Segurança, permissões e manutenção do sistema.</p></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="settings-grid">
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-shield-halved"></i> Segurança</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <button class="btn btn-bordo" onclick="alert('Reset de senha enviado! (simulado)')"><i class="fa-solid fa-key"></i> Resetar senha de usuário</button>
+              <button class="btn btn-gold" onclick="alert('Backup iniciado! (simulado)')"><i class="fa-solid fa-floppy-disk"></i> Fazer backup agora</button>
+              <button class="btn btn-outline" onclick="alert('Relatório de segurança gerado! (simulado)')"><i class="fa-solid fa-file-shield"></i> Relatório de segurança</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="fa-solid fa-user-lock"></i> Permissões</div>
+            <p style="font-size:.85rem;color:var(--g600);line-height:1.7;">
+              <strong style="color:var(--b700);">Admin:</strong> acesso total — cadastro, edição, exclusão, relatórios.<br>
+              <strong style="color:var(--b700);">Funcionário:</strong> cadastrar e devolver itens, sem acesso a usuários.<br>
+              <strong style="color:var(--b700);">Usuário:</strong> buscar itens e solicitar devoluções próprias.
+            </p>
+            <button class="btn btn-outline btn-sm" style="margin-top:12px;" onclick="alert('Editor de permissões — em desenvolvimento.')"><i class="fa-solid fa-pen"></i> Editar permissões</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── LOGS ── -->
+      <div data-section="admin-logs">
+        <div class="page-header"><h1>Logs do Sistema</h1><p>Registro de todas as atividades realizadas.</p></div>
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-terminal"></i> Atividades recentes</div>
+          <div class="log-list">
+            <div class="log-item"><div class="log-dot"></div><div class="log-text"><strong>Pablo</strong> editou o item <strong>Mochila preta</strong> — status alterado para "Aguardando"</div><span class="log-time">Hoje 14:32</span></div>
+            <div class="log-item"><div class="log-dot"></div><div class="log-text"><strong>Maria</strong> registrou devolução do <strong>Celular Samsung</strong> para Ana</div><span class="log-time">Hoje 11:15</span></div>
+            <div class="log-item"><div class="log-dot"></div><div class="log-text"><strong>João</strong> cadastrou novo item: <strong>Óculos de grau</strong> — Cantina</div><span class="log-time">Ontem 09:44</span></div>
+            <div class="log-item"><div class="log-dot"></div><div class="log-text"><strong>Carla</strong> buscou item "tênis" — 3 resultados encontrados</div><span class="log-time">Ontem 08:22</span></div>
+            <div class="log-item"><div class="log-dot" style="background:var(--b500)"></div><div class="log-text" style="color:var(--b600)"><strong>Sistema:</strong> Tentativa de login falhou — IP 192.168.1.45</div><span class="log-time">13/04 03:42</span></div>
+            <div class="log-item"><div class="log-dot"></div><div class="log-text"><strong>Pablo</strong> criou usuário <strong>Carla Mendes</strong> (Funcionária)</div><span class="log-time">12/04 16:10</span></div>
+            <div class="log-item"><div class="log-dot"></div><div class="log-text"><strong>Maria</strong> exportou relatório de Março/2025 em PDF</div><span class="log-time">11/04 13:05</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main-area -->
+</div><!-- /screen-admin -->
+
+<!-- ════════════════════════════════════════════
+     TELA DO FUNCIONÁRIO
+════════════════════════════════════════════ -->
+<div id="screen-func" class="app-shell">
+  <aside class="sidebar" id="sidebar-func">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+      <div class="sidebar-logo-text"><span>APETEC</span><span>ETEC Itaquera</span></div>
+    </div>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar"><i class="fa-solid fa-user-tie"></i></div>
+      <div><div class="sidebar-username">Pablo</div><div class="sidebar-role">Funcionário</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Navegação</div>
+      <button class="sidebar-link active" onclick="showSection('func','dashboard')"><i class="fa-solid fa-gauge"></i> Dashboard</button>
+      <button class="sidebar-link" onclick="showSection('func','register')"><i class="fa-solid fa-plus-circle"></i> Registrar item</button>
+      <button class="sidebar-link" onclick="showSection('func','search')"><i class="fa-solid fa-magnifying-glass"></i> Buscar itens</button>
+      <button class="sidebar-link" onclick="showSection('func','devolutions')"><i class="fa-solid fa-handshake"></i> Devoluções</button>
+      <button class="sidebar-link" onclick="showSection('func','reports')"><i class="fa-solid fa-chart-bar"></i> Relatórios</button>
+      <button class="sidebar-link" onclick="showSection('func','settings')"><i class="fa-solid fa-gear"></i> Configurações</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="btn-logout" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+    </div>
+  </aside>
+  <div class="main-area">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="mobile-menu-btn" onclick="toggleSidebar('sidebar-func')"><i class="fa-solid fa-bars"></i></button>
+        <span class="topbar-title" id="func-topbar-title">Dashboard</span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-search"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Buscar item..."/></div>
+        <div class="topbar-user"><div class="topbar-avatar"><i class="fa-solid fa-user-tie"></i></div><span>Pablo</span></div>
+      </div>
+    </header>
+    <div class="content">
+
+      <!-- ── FUNC DASHBOARD ── -->
+      <div data-section="func-dashboard" class="section-active">
+        <div class="page-header">
+          <h1>Olá, Pablo 👋</h1>
+          <p>Aqui está seu resumo de hoje — <span id="func-date"></span></p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon gold"><i class="fa-solid fa-inbox"></i></div><div class="stat-number">5</div><div class="stat-label">Encontrados hoje</div></div>
+          <div class="stat-card"><div class="stat-icon amber"><i class="fa-solid fa-clock"></i></div><div class="stat-number">12</div><div class="stat-label">Aguardando dono</div></div>
+          <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-check-circle"></i></div><div class="stat-number">30</div><div class="stat-label">Devolvidos</div></div>
+          <div class="stat-card"><div class="stat-icon bordo"><i class="fa-solid fa-hourglass-end"></i></div><div class="stat-number">3</div><div class="stat-label">Antigos (+30 dias)</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-bolt"></i> Ações Rápidas</div>
+          <div class="quick-actions">
+            <div class="qa-btn" onclick="openModal('modal-new-item-func')"><span class="qa-icon">➕</span><span class="qa-label">Registrar item</span></div>
+            <div class="qa-btn" onclick="showSection('func','search')"><span class="qa-icon">🔎</span><span class="qa-label">Buscar item</span></div>
+            <div class="qa-btn" onclick="openModal('modal-devolution')"><span class="qa-icon">📤</span><span class="qa-label">Registrar devolução</span></div>
+            <div class="qa-btn" onclick="showSection('func','search')"><span class="qa-icon">📋</span><span class="qa-label">Ver todos os itens</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Itens recentes</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Item</th><th>Local encontrado</th><th>Data</th><th>Status</th><th>Ação</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Mochila preta</strong></td><td>Sala 12</td><td>14/04</td><td><span class="badge badge-waiting">Aguardando</span></td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+                <tr><td><strong>Celular Samsung</strong></td><td>Pátio</td><td>13/04</td><td><span class="badge badge-done">Devolvido</span></td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+                <tr><td><strong>Óculos de grau</strong></td><td>Cantina</td><td>12/04</td><td><span class="badge badge-waiting">Aguardando</span></td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+                <tr><td><strong>Estojo vermelho</strong></td><td>Sala 08</td><td>14/04</td><td><span class="badge badge-found">Encontrado</span></td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+                <tr><td><strong>Chaves (chaveiro azul)</strong></td><td>Corredor B</td><td>14/04</td><td><span class="badge badge-waiting">Aguardando</span></td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FUNC REGISTRAR ── -->
+      <div data-section="func-register">
+        <div class="page-header"><h1>Registrar Item Encontrado</h1><p>Preencha os dados do item localizado.</p></div>
+        <div class="card" style="max-width:580px;">
+          <div class="card-title"><i class="fa-solid fa-box"></i> Dados do item</div>
+          <div class="m-group"><label class="m-label">Nome do item *</label><input class="m-input" type="text" placeholder="Ex: Mochila preta com zíper amarelo"/></div>
+          <div class="m-group"><label class="m-label">Local encontrado *</label>
+            <select class="m-select"><option>Selecione...</option><option>Sala 12</option><option>Sala 08</option><option>Pátio</option><option>Cantina</option><option>Corredor B</option><option>Biblioteca</option><option>Laboratório de Informática</option><option>Quadra</option></select>
+          </div>
+          <div class="m-group"><label class="m-label">Descrição</label><textarea class="m-textarea" placeholder="Descreva cor, marca, características marcantes..."></textarea></div>
+          <div class="m-group"><label class="m-label">Foto do item</label><input class="m-input" type="file" accept="image/*"/></div>
+          <div class="m-group"><label class="m-label">Data de achado</label><input class="m-input" type="date" id="funcItemDate"/></div>
+          <div style="background:var(--g100);border-radius:var(--r-sm);padding:10px 14px;font-size:.82rem;color:var(--g600);margin-bottom:16px;">
+            <i class="fa-solid fa-info-circle" style="color:var(--o700);margin-right:5px;"></i>
+            Status será definido automaticamente como <strong style="color:var(--b700);">Encontrado</strong>.
+          </div>
+          <button class="btn btn-gold btn-lg" onclick="alert('✅ Item registrado com sucesso!\n\nStatus: Encontrado\nNotificações enviadas aos usuários com alertas compatíveis.')"><i class="fa-solid fa-floppy-disk"></i> Salvar item</button>
+        </div>
+      </div>
+
+      <!-- ── FUNC BUSCAR ── -->
+      <div data-section="func-search">
+        <div class="page-header"><h1>Buscar Itens</h1><p>Pesquise no acervo completo do sistema.</p></div>
+        <div class="filter-bar">
+          <div class="filter-group" style="flex:1;min-width:180px;"><label>Nome do item</label><input type="text" class="filter-input" placeholder="Ex: mochila, celular..."/></div>
+          <div class="filter-group"><label>Local</label><select class="filter-select"><option>Todos</option><option>Sala 12</option><option>Pátio</option><option>Corredor B</option><option>Cantina</option></select></div>
+          <div class="filter-group"><label>Data</label><input type="date" class="filter-input"/></div>
+          <div class="filter-group"><label>Status</label><select class="filter-select"><option>Todos</option><option>Aguardando</option><option>Devolvido</option><option>Vencido</option></select></div>
+          <button class="btn btn-bordo btn-sm" style="margin-top:18px;"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Local</th><th>Data</th><th>Status</th><th>Responsável</th><th>Ação</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Mochila preta</strong></td><td>Sala 12</td><td>14/04/2025</td><td><span class="badge badge-waiting">Aguardando</span></td><td>Pablo</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+              <tr><td><strong>Celular Samsung</strong></td><td>Pátio</td><td>13/04/2025</td><td><span class="badge badge-done">Devolvido</span></td><td>Maria</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+              <tr><td><strong>Óculos de grau</strong></td><td>Cantina</td><td>12/04/2025</td><td><span class="badge badge-waiting">Aguardando</span></td><td>Carla</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+              <tr><td><strong>Estojo vermelho</strong></td><td>Sala 08</td><td>14/04/2025</td><td><span class="badge badge-found">Encontrado</span></td><td>Pablo</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+              <tr><td><strong>Chaves</strong></td><td>Corredor B</td><td>14/04/2025</td><td><span class="badge badge-waiting">Aguardando</span></td><td>Pablo</td><td><button class="btn btn-sm btn-outline" onclick="openModal('modal-view-item')">Ver</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── FUNC DEVOLUÇÕES ── -->
+      <div data-section="func-devolutions">
+        <div class="page-header"><h1>Registrar Devolução</h1><p>Marque itens como devolvidos ao proprietário.</p></div>
+        <div class="card" style="max-width:540px;">
+          <div class="card-title"><i class="fa-solid fa-handshake"></i> Dados da devolução</div>
+          <div class="m-group"><label class="m-label">Buscar item (nome ou ID)</label>
+            <div style="display:flex;gap:8px;">
+              <input class="m-input" type="text" placeholder="Ex: Mochila preta ou #0023" style="flex:1;"/>
+              <button class="btn btn-bordo" onclick="alert('Item encontrado: Mochila preta – Sala 12\nStatus: Aguardando')"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+          </div>
+          <div class="m-group"><label class="m-label">Nome do proprietário</label><input class="m-input" type="text" placeholder="Nome completo"/></div>
+          <div class="m-group"><label class="m-label">Documento de identidade</label><input class="m-input" type="text" placeholder="RG ou matrícula"/></div>
+          <div class="m-group"><label class="m-label">Observações</label><textarea class="m-textarea" placeholder="Condições do item na entrega, observações gerais..."></textarea></div>
+          <button class="btn btn-success btn-lg" onclick="alert('✅ Devolução registrada com sucesso!\n\nItem marcado como Devolvido.\nNotificação enviada ao Admin.')"><i class="fa-solid fa-check-circle"></i> Confirmar devolução</button>
+        </div>
+      </div>
+
+      <!-- ── FUNC RELATÓRIOS ── -->
+      <div data-section="func-reports">
+        <div class="page-header"><h1>Relatórios</h1><p>Visualize sua atividade no sistema.</p></div>
+        <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);max-width:480px;">
+          <div class="stat-card"><div class="stat-icon gold"><i class="fa-solid fa-inbox"></i></div><div class="stat-number">18</div><div class="stat-label">Itens registrados (mês)</div></div>
+          <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-handshake"></i></div><div class="stat-number">14</div><div class="stat-label">Devoluções realizadas</div></div>
+          <div class="stat-card"><div class="stat-icon bordo"><i class="fa-solid fa-clock"></i></div><td>4</div><div class="stat-label">Pendentes</div></div>
+        </div>
+      </div>
+
+      <!-- ── FUNC CONFIGURAÇÕES ── -->
+      <div data-section="func-settings">
+        <div class="page-header"><h1>Configurações</h1><p>Preferências da sua conta.</p></div>
+        <div class="card" style="max-width:480px;">
+          <div class="card-title"><i class="fa-solid fa-user"></i> Meu perfil</div>
+          <div class="m-group"><label class="m-label">Nome</label><input class="m-input" type="text" value="Pablo Funcionário"/></div>
+          <div class="m-group"><label class="m-label">E-mail</label><input class="m-input" type="email" value="func@exemplo.com"/></div>
+          <div class="m-group"><label class="m-label">Nova senha</label><input class="m-input" type="password" placeholder="Digite para alterar"/></div>
+          <button class="btn btn-gold" onclick="alert('Perfil atualizado! (simulado)')"><i class="fa-solid fa-floppy-disk"></i> Salvar alterações</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /screen-func -->
+
+<!-- ════════════════════════════════════════════
+     TELA DO USUÁRIO
+════════════════════════════════════════════ -->
+<div id="screen-user" class="app-shell">
+  <aside class="sidebar" id="sidebar-user">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+      <div class="sidebar-logo-text"><span>APETEC</span><span>ETEC Itaquera</span></div>
+    </div>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar"><i class="fa-solid fa-user"></i></div>
+      <div><div class="sidebar-username">Ana</div><div class="sidebar-role">Usuária</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Menu</div>
+      <button class="sidebar-link active" onclick="showSection('user','home')"><i class="fa-solid fa-house"></i> Início</button>
+      <button class="sidebar-link" onclick="showSection('user','search')"><i class="fa-solid fa-magnifying-glass"></i> Buscar item</button>
+      <button class="sidebar-link" onclick="showSection('user','requests')"><i class="fa-solid fa-list-check"></i> Minhas solicitações</button>
+      <button class="sidebar-link" onclick="showSection('user','profile')"><i class="fa-solid fa-user-circle"></i> Meu perfil</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="btn-logout" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+    </div>
+  </aside>
+  <div class="main-area">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="mobile-menu-btn" onclick="toggleSidebar('sidebar-user')"><i class="fa-solid fa-bars"></i></button>
+        <span class="topbar-title" id="user-topbar-title">Início</span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-user"><div class="topbar-avatar"><i class="fa-solid fa-user"></i></div><span>Ana</span></div>
+      </div>
+    </header>
+    <div class="content">
+
+      <!-- ── USER HOME ── -->
+      <div data-section="user-home" class="section-active">
+        <div class="page-header"><h1>Encontre o que é seu ✨</h1><p>Pesquise itens encontrados no campus da ETEC de Itaquera.</p></div>
+
+        <!-- Busca hero -->
+        <div class="search-hero">
+          <h2>O que você perdeu?</h2>
+          <p>Digite o nome do objeto e pesquise no acervo de itens encontrados.</p>
+          <div class="search-bar-big">
+            <input class="search-input-big" type="text" placeholder="Ex: mochila preta, celular samsung, óculos..."/>
+            <button class="btn btn-gold btn-lg"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+          </div>
+          <div class="search-filters">
+            <select class="search-select"><option>📍 Todos os locais</option><option>Sala 12</option><option>Pátio</option><option>Corredor B</option><option>Cantina</option></select>
+            <input type="date" class="search-select"/>
+            <select class="search-select"><option>📂 Categoria</option><option>📱 Eletrônicos</option><option>🎒 Mochilas/Bolsas</option><option>📄 Documentos</option><option>🔑 Chaves</option><option>👕 Roupas</option></select>
+          </div>
+        </div>
+
+        <!-- Categorias -->
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--b700);margin-bottom:14px;">Categorias rápidas</h3>
+        <div class="categories-grid">
+          <div class="cat-btn" onclick="filterCat('eletrônicos')"><span class="cat-emoji">📱</span><span class="cat-name">Eletrônicos</span></div>
+          <div class="cat-btn" onclick="filterCat('mochilas')"><span class="cat-emoji">🎒</span><span class="cat-name">Mochilas</span></div>
+          <div class="cat-btn" onclick="filterCat('documentos')"><span class="cat-emoji">📄</span><span class="cat-name">Documentos</span></div>
+          <div class="cat-btn" onclick="filterCat('chaves')"><span class="cat-emoji">🔑</span><span class="cat-name">Chaves</span></div>
+          <div class="cat-btn" onclick="filterCat('roupas')"><span class="cat-emoji">👕</span><span class="cat-name">Roupas</span></div>
+          <div class="cat-btn" onclick="filterCat('recentes')"><span class="cat-emoji">🆕</span><span class="cat-name">Recentes</span></div>
+        </div>
+
+        <!-- Itens recentes -->
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--b700);margin:20px 0 14px;">Encontrados recentemente</h3>
+        <div class="items-grid">
+          <div class="item-card">
+            <div class="item-thumb">📱</div>
+            <div class="item-body">
+              <div class="item-name">Celular preto</div>
+              <div class="item-meta">
+                <span><i class="fa-solid fa-location-dot"></i> Sala 12</span>
+                <span><i class="fa-regular fa-calendar"></i> 14/04/2025</span>
+              </div>
+              <span class="badge badge-waiting" style="margin-bottom:10px;">Aguardando</span>
+              <button class="btn btn-gold btn-sm" style="width:100%;margin-top:4px;" onclick="openModal('modal-item-detail','celular')">Ver detalhes</button>
+            </div>
+          </div>
+          <div class="item-card">
+            <div class="item-thumb">🎒</div>
+            <div class="item-body">
+              <div class="item-name">Mochila preta</div>
+              <div class="item-meta">
+                <span><i class="fa-solid fa-location-dot"></i> Pátio</span>
+                <span><i class="fa-regular fa-calendar"></i> 13/04/2025</span>
+              </div>
+              <span class="badge badge-waiting" style="margin-bottom:10px;">Aguardando</span>
+              <button class="btn btn-gold btn-sm" style="width:100%;margin-top:4px;" onclick="openModal('modal-item-detail','mochila')">Ver detalhes</button>
+            </div>
+          </div>
+          <div class="item-card">
+            <div class="item-thumb">🔑</div>
+            <div class="item-body">
+              <div class="item-name">Chaves (chaveiro azul)</div>
+              <div class="item-meta">
+                <span><i class="fa-solid fa-location-dot"></i> Corredor B</span>
+                <span><i class="fa-regular fa-calendar"></i> 14/04/2025</span>
+              </div>
+              <span class="badge badge-waiting" style="margin-bottom:10px;">Aguardando</span>
+              <button class="btn btn-gold btn-sm" style="width:100%;margin-top:4px;" onclick="openModal('modal-item-detail','chave')">Ver detalhes</button>
+            </div>
+          </div>
+          <div class="item-card">
+            <div class="item-thumb">👓</div>
+            <div class="item-body">
+              <div class="item-name">Óculos de grau</div>
+              <div class="item-meta">
+                <span><i class="fa-solid fa-location-dot"></i> Cantina</span>
+                <span><i class="fa-regular fa-calendar"></i> 12/04/2025</span>
+              </div>
+              <span class="badge badge-waiting" style="margin-bottom:10px;">Aguardando</span>
+              <button class="btn btn-gold btn-sm" style="width:100%;margin-top:4px;" onclick="openModal('modal-item-detail','oculos')">Ver detalhes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── USER BUSCA ── -->
+      <div data-section="user-search">
+        <div class="page-header"><h1>Buscar Item</h1><p>Pesquise o acervo completo de itens encontrados.</p></div>
+        <div class="filter-bar">
+          <div class="filter-group" style="flex:1;min-width:180px;"><label>Nome do item</label><input type="text" class="filter-input" placeholder="O que você perdeu?"/></div>
+          <div class="filter-group"><label>Local</label><select class="filter-select"><option>Todos</option><option>Sala 12</option><option>Pátio</option><option>Corredor B</option><option>Cantina</option></select></div>
+          <div class="filter-group"><label>Categoria</label><select class="filter-select"><option>Todas</option><option>Eletrônicos</option><option>Mochilas</option><option>Documentos</option><option>Chaves</option><option>Roupas</option></select></div>
+          <button class="btn btn-gold btn-sm" style="margin-top:18px;"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+        </div>
+        <div class="items-grid">
+          <div class="item-card"><div class="item-thumb">📱</div><div class="item-body"><div class="item-name">Celular preto</div><div class="item-meta"><span><i class="fa-solid fa-location-dot"></i> Sala 12</span><span><i class="fa-regular fa-calendar"></i> 14/04</span></div><button class="btn btn-gold btn-sm" style="width:100%;margin-top:8px;" onclick="openModal('modal-item-detail','celular')">Ver detalhes</button></div></div>
+          <div class="item-card"><div class="item-thumb">🎒</div><div class="item-body"><div class="item-name">Mochila preta</div><div class="item-meta"><span><i class="fa-solid fa-location-dot"></i> Pátio</span><span><i class="fa-regular fa-calendar"></i> 13/04</span></div><button class="btn btn-gold btn-sm" style="width:100%;margin-top:8px;" onclick="openModal('modal-item-detail','mochila')">Ver detalhes</button></div></div>
+          <div class="item-card"><div class="item-thumb">🔑</div><div class="item-body"><div class="item-name">Chaves</div><div class="item-meta"><span><i class="fa-solid fa-location-dot"></i> Corredor B</span><span><i class="fa-regular fa-calendar"></i> 14/04</span></div><button class="btn btn-gold btn-sm" style="width:100%;margin-top:8px;" onclick="openModal('modal-item-detail','chave')">Ver detalhes</button></div></div>
+          <div class="item-card"><div class="item-thumb">📄</div><div class="item-body"><div class="item-name">Carteira de estudante</div><div class="item-meta"><span><i class="fa-solid fa-location-dot"></i> Biblioteca</span><span><i class="fa-regular fa-calendar"></i> 11/04</span></div><button class="btn btn-gold btn-sm" style="width:100%;margin-top:8px;" onclick="openModal('modal-item-detail','carteira')">Ver detalhes</button></div></div>
+        </div>
+      </div>
+
+      <!-- ── USER SOLICITAÇÕES ── -->
+      <div data-section="user-requests">
+        <div class="page-header"><h1>Minhas Solicitações</h1><p>Acompanhe o status das suas solicitações de devolução.</p></div>
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-list-check"></i> Histórico de solicitações</div>
+          <div class="req-list">
+            <div class="req-item"><div><div class="req-name">🩴 Tênis Nike (branco, tam. 42)</div><div class="req-date">Solicitado em 10/04/2025</div></div><span class="badge badge-analysis">Em análise</span></div>
+            <div class="req-item"><div><div class="req-name">👓 Óculos de sol (armação preta)</div><div class="req-date">Solicitado em 08/04/2025</div></div><span class="badge badge-approved">Aprovado</span></div>
+            <div class="req-item"><div><div class="req-name">🖊️ Caneta Parker azul</div><div class="req-date">Solicitado em 05/04/2025</div></div><span class="badge badge-denied">Negado</span></div>
+          </div>
+        </div>
+        <div class="alert-item alert-info" style="margin-top:16px;border-radius:var(--r-sm);">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>Solicitações <strong>negadas</strong> ocorrem quando as informações não foram suficientes para comprovar a posse. Entre em contato com a APETEC para reabrir.</span>
+        </div>
+      </div>
+
+      <!-- ── USER PERFIL ── -->
+      <div data-section="user-profile">
+        <div class="page-header"><h1>Meu Perfil</h1><p>Gerencie suas informações pessoais.</p></div>
+        <div class="card" style="max-width:480px;">
+          <div style="text-align:center;margin-bottom:24px;">
+            <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--b500),var(--b400));display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--o400);border:3px solid var(--o600);margin:0 auto 12px;box-shadow:var(--sd-gold);">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--b700);font-weight:600;">Ana Oliveira</div>
+            <div style="font-size:.78rem;color:var(--g400);">Aluna – ETEC Itaquera</div>
+          </div>
+          <div class="m-group"><label class="m-label">Nome completo</label><input class="m-input" type="text" value="Ana Oliveira"/></div>
+          <div class="m-group"><label class="m-label">E-mail</label><input class="m-input" type="email" value="user@exemplo.com"/></div>
+          <div class="m-group"><label class="m-label">Matrícula</label><input class="m-input" type="text" value="2025001234" disabled/></div>
+          <div class="m-group"><label class="m-label">Nova senha</label><input class="m-input" type="password" placeholder="Deixe em branco para manter"/></div>
+          <button class="btn btn-gold btn-lg" style="width:100%;" onclick="alert('Perfil atualizado com sucesso! (simulado)')"><i class="fa-solid fa-floppy-disk"></i> Salvar alterações</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /screen-user -->
+
+<!-- ════════════════════════════════════════════
+     MODAIS GLOBAIS
+════════════════════════════════════════════ -->
+
+<!-- Modal: Novo usuário (Admin) -->
+<div class="modal-backdrop" id="modal-new-user">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fa-solid fa-user-plus" style="margin-right:8px;"></i>Criar novo usuário</h3><button class="modal-close" onclick="closeModal('modal-new-user')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="m-group"><label class="m-label">Nome completo</label><input class="m-input" type="text" placeholder="Nome Sobrenome"/></div>
+      <div class="m-group"><label class="m-label">E-mail</label><input class="m-input" type="email" placeholder="email@etec.com"/></div>
+      <div class="m-group"><label class="m-label">Tipo de perfil</label><select class="m-select"><option>Usuário</option><option>Funcionário</option><option>Administrador</option></select></div>
+      <div class="m-group"><label class="m-label">Senha temporária</label><input class="m-input" type="text" placeholder="Gerada automaticamente" value="Etec@2025"/></div>
+      <div class="modal-footer">
+        <button class="btn btn-gray" onclick="closeModal('modal-new-user')">Cancelar</button>
+        <button class="btn btn-gold" onclick="alert('✅ Usuário criado! E-mail de boas-vindas enviado. (simulado)');closeModal('modal-new-user')"><i class="fa-solid fa-check"></i> Criar usuário</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar usuário -->
+<div class="modal-backdrop" id="modal-edit-user">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fa-solid fa-user-pen" style="margin-right:8px;"></i>Editar usuário</h3><button class="modal-close" onclick="closeModal('modal-edit-user')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="m-group"><label class="m-label">Nome</label><input class="m-input" type="text" value="João Silva"/></div>
+      <div class="m-group"><label class="m-label">E-mail</label><input class="m-input" type="email" value="joao@etec.com"/></div>
+      <div class="m-group"><label class="m-label">Perfil</label><select class="m-select"><option>Funcionário</option><option>Admin</option><option>Usuário</option></select></div>
+      <div class="m-group"><label class="m-label">Status</label><select class="m-select"><option>Ativo</option><option>Inativo</option></select></div>
+      <div class="modal-footer">
+        <button class="btn btn-danger btn-sm" onclick="alert('Usuário desativado. (simulado)');closeModal('modal-edit-user')"><i class="fa-solid fa-ban"></i> Desativar</button>
+        <button class="btn btn-gray" onclick="closeModal('modal-edit-user')">Cancelar</button>
+        <button class="btn btn-gold" onclick="alert('✅ Usuário atualizado! (simulado)');closeModal('modal-edit-user')"><i class="fa-solid fa-check"></i> Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Novo item Admin -->
+<div class="modal-backdrop" id="modal-new-item-admin">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fa-solid fa-box-open" style="margin-right:8px;"></i>Cadastrar novo item</h3><button class="modal-close" onclick="closeModal('modal-new-item-admin')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="m-group"><label class="m-label">Nome do item</label><input class="m-input" type="text" placeholder="Descrição curta"/></div>
+      <div class="m-group"><label class="m-label">Local</label><select class="m-select"><option>Sala 12</option><option>Pátio</option><option>Corredor B</option><option>Cantina</option><option>Biblioteca</option></select></div>
+      <div class="m-group"><label class="m-label">Descrição</label><textarea class="m-textarea" placeholder="Detalhes do item..."></textarea></div>
+      <div class="m-group"><label class="m-label">Responsável</label><select class="m-select"><option>João</option><option>Maria</option><option>Carla</option></select></div>
+      <div class="m-group"><label class="m-label">Data</label><input class="m-input" type="date"/></div>
+      <div class="modal-footer">
+        <button class="btn btn-gray" onclick="closeModal('modal-new-item-admin')">Cancelar</button>
+        <button class="btn btn-gold" onclick="alert('✅ Item cadastrado no sistema! (simulado)');closeModal('modal-new-item-admin')"><i class="fa-solid fa-check"></i> Cadastrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar item Admin -->
+<div class="modal-backdrop" id="modal-edit-item">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fa-solid fa-pen" style="margin-right:8px;"></i>Editar item</h3><button class="modal-close" onclick="closeModal('modal-edit-item')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="m-group"><label class="m-label">Nome do item</label><input class="m-input" type="text" value="Mochila preta"/></div>
+      <div class="m-group"><label class="m-label">Local</label><select class="m-select"><option selected>Sala 12</option><option>Pátio</option><option>Corredor B</option></select></div>
+      <div class="m-group"><label class="m-label">Status</label><select class="m-select"><option>Aguardando</option><option>Devolvido</option><option>Vencido</option></select></div>
+      <div class="m-group"><label class="m-label">Observações</label><textarea class="m-textarea">Mochila com alça vermelha e etiqueta da escola.</textarea></div>
+      <div class="modal-footer">
+        <button class="btn btn-gray" onclick="closeModal('modal-edit-item')">Cancelar</button>
+        <button class="btn btn-gold" onclick="alert('✅ Item atualizado! (simulado)');closeModal('modal-edit-item')"><i class="fa-solid fa-check"></i> Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Novo item Funcionário -->
+<div class="modal-backdrop" id="modal-new-item-func">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fa-solid fa-inbox" style="margin-right:8px;"></i>Registrar item encontrado</h3><button class="modal-close" onclick="closeModal('modal-new-item-func')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="m-group"><label class="m-label">Nome do item *</label><input class="m-input" type="text" placeholder="Ex: Mochila preta com alça vermelha"/></div>
+      <div class="m-group"><label class="m-label">Local encontrado *</label><select class="m-select"><option>Selecione...</option><option>Sala 12</option><option>Sala 08</option><option>Pátio</option><option>Cantina</option><option>Corredor B</option><option>Biblioteca</option><option>Laboratório de Informática</option></select></div>
+      <div class="m-group"><label class="m-label">Descrição</label><textarea class="m-textarea" placeholder="Cor, marca, características específicas..."></textarea></div>
+      <div class="m-group"><label class="m-label">Foto (simulado)</label><input class="m-input" type="file" accept="image/*"/></div>
+      <div class="m-group"><label class="m-label">Data</label><input class="m-input" type="date" id="funcModalDate"/></div>
+      <div style="background:var(--g100);border-radius:var(--r-sm);padding:10px 14px;font-size:.8rem;color:var(--g600);margin-bottom:8px;">
+        <i class="fa-solid fa-info-circle" style="color:var(--o700);margin-right:5px;"></i>Status: <strong style="color:var(--b700);">Encontrado</strong> (automático)
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-gray" onclick="closeModal('modal-new-item-func')">Cancelar</button>
+        <button class="btn btn-gold" onclick="alert('✅ Item registrado!\n\nNotificações enviadas aos usuários com alertas compatíveis.');closeModal('modal-new-item-func')"><i class="fa-solid fa-check"></i> Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Devolução Funcionário -->
+<div class="modal-backdrop" id="modal-devolution">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fa-solid fa-handshake" style="margin-right:8px;"></i>Registrar devolução</h3><button class="modal-close" onclick="closeModal('modal-devolution')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="m-group"><label class="m-label">Item (nome ou código)</label><input class="m-input" type="text" placeholder="Ex: Mochila preta ou #0023"/></div>
+      <div class="m-group"><label class="m-label">Proprietário</label><input class="m-input" type="text" placeholder="Nome completo do proprietário"/></div>
+      <div class="m-group"><label class="m-label">Documento</label><input class="m-input" type="text" placeholder="RG ou matrícula escolar"/></div>
+      <div class="m-group"><label class="m-label">Observações</label><textarea class="m-textarea" placeholder="Condição do item, observações gerais..."></textarea></div>
+      <div class="modal-footer">
+        <button class="btn btn-gray" onclick="closeModal('modal-devolution')">Cancelar</button>
+        <button class="btn btn-success" onclick="alert('✅ Devolução registrada! Item marcado como Devolvido. (simulado)');closeModal('modal-devolution')"><i class="fa-solid fa-check-circle"></i> Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ver item (Funcionário) -->
+<div class="modal-backdrop" id="modal-view-item">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fa-solid fa-eye" style="margin-right:8px;"></i>Detalhes do item</h3><button class="modal-close" onclick="closeModal('modal-view-item')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div style="background:linear-gradient(135deg,var(--b800),var(--b700));border-radius:var(--r-md);height:100px;display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:16px;">🎒</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div><div style="font-size:.7rem;text-transform:uppercase;color:var(--g400);font-weight:700;margin-bottom:3px;">Item</div><div style="font-weight:700;color:var(--b700);">Mochila preta</div></div>
+        <div><div style="font-size:.7rem;text-transform:uppercase;color:var(--g400);font-weight:700;margin-bottom:3px;">Local</div><div style="font-weight:700;color:var(--b700);">Sala 12</div></div>
+        <div><div style="font-size:.7rem;text-transform:uppercase;color:var(--g400);font-weight:700;margin-bottom:3px;">Data</div><div style="font-weight:700;color:var(--b700);">14/04/2025</div></div>
+        <div><div style="font-size:.7rem;text-transform:uppercase;color:var(--g400);font-weight:700;margin-bottom:3px;">Status</div><span class="badge badge-waiting">Aguardando</span></div>
+      </div>
+      <div><div style="font-size:.7rem;text-transform:uppercase;color:var(--g400);font-weight:700;margin-bottom:6px;">Descrição</div><p style="font-size:.87rem;color:var(--g600);">Mochila preta com alça vermelha, etiqueta escolar. Contém estojo e cadernos.</p></div>
+      <div class="modal-footer">
+        <button class="btn btn-gray" onclick="closeModal('modal-view-item')">Fechar</button>
+        <button class="btn btn-bordo" onclick="openModal('modal-devolution');closeModal('modal-view-item')"><i class="fa-solid fa-handshake"></i> Registrar devolução</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Detalhe item (Usuário) -->
+<div class="modal-backdrop" id="modal-item-detail">
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="modal-detail-title"><i class="fa-solid fa-magnifying-glass" style="margin-right:8px;"></i>Detalhes do item</h3><button class="modal-close" onclick="closeModal('modal-item-detail')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div id="modal-detail-thumb" style="background:linear-gradient(135deg,var(--b800),var(--b700));border-radius:var(--r-md);height:110px;display:flex;align-items:center;justify-content:center;font-size:52px;margin-bottom:16px;">📱</div>
+      <div id="modal-detail-info" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;"></div>
+      <div id="modal-detail-desc" style="font-size:.87rem;color:var(--g600);margin-bottom:16px;line-height:1.6;"></div>
+      <div class="modal-footer" id="modal-detail-actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Solicitar devolução (Usuário) -->
+<div class="modal-backdrop" id="modal-request-devolution">
+  <div class="modal-box">
+    <div class="modal-head"><h3><i class="fa-solid fa-hand-holding-heart" style="margin-right:8px;"></i>Solicitar devolução</h3><button class="modal-close" onclick="closeModal('modal-request-devolution')"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="alert-item alert-info" style="margin-bottom:16px;border-radius:var(--r-sm);">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Para comprovar que o item é seu, descreva características específicas que somente o dono saberia.</span>
+      </div>
+      <div class="m-group"><label class="m-label">Prove que é seu *</label><textarea class="m-textarea" placeholder="Ex: tela com trincado no canto esquerdo, adesivo azul na tampa, senha de desbloqueio, etc."></textarea></div>
+      <div class="m-group"><label class="m-label">Seu contato (telefone/e-mail)</label><input class="m-input" type="text" placeholder="Para entrar em contato"/></div>
+      <div class="modal-footer">
+        <button class="btn btn-gray" onclick="closeModal('modal-request-devolution')">Cancelar</button>
+        <button class="btn btn-gold" onclick="submitRequest()"><i class="fa-solid fa-paper-plane"></i> Solicitar devolução</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+/* ──────────────────────────────────────────
+   CREDENCIAIS MOCK
+────────────────────────────────────────── */
+const USERS = {
+  'admin@exemplo.com':  { pass:'admin123', screen:'admin', name:'Pablo',  role:'Administrador' },
+  'func@exemplo.com':   { pass:'func123',  screen:'func',  name:'Pablo',  role:'Funcionário' },
+  'user@exemplo.com':   { pass:'user123',  screen:'user',  name:'Ana',    role:'Usuária' },
+};
+
+/* ──────────────────────────────────────────
+   LOGIN
+────────────────────────────────────────── */
+// Toggle senha
+document.getElementById('loginEye').addEventListener('click',()=>{
+  const p=document.getElementById('loginPass');
+  const on=p.type==='password';
+  p.type=on?'text':'password';
+  document.getElementById('loginEyeIcon').className=on?'fa-regular fa-eye-slash':'fa-regular fa-eye';
+});
+
+// Enter key
+['loginEmail','loginPass'].forEach(id=>{
+  document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+});
+
+function doLogin(){
+  const em=document.getElementById('loginEmail').value.trim();
+  const pw=document.getElementById('loginPass').value;
+  const alert=document.getElementById('loginAlert');
+  const u=USERS[em.toLowerCase()];
+  if(!em||!pw){showLoginAlert('Preencha e-mail e senha.');return;}
+  if(!u||u.pass!==pw){showLoginAlert('Credenciais inválidas. Tente novamente.');return;}
+  // Login bem-sucedido
+  alert.classList.remove('show');
+  document.getElementById('screen-login').style.display='none';
+  const s=document.getElementById('screen-'+u.screen);
+  s.classList.add('active');
+  // Datas
+  const today=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  const el=document.getElementById(u.screen+'-date');
+  if(el)el.textContent=today;
+  // Datas nos inputs
+  const d=new Date().toISOString().split('T')[0];
+  ['funcItemDate','funcModalDate'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=d;});
+  // Chart
+  if(u.screen==='admin')setTimeout(initCharts,200);
+}
+
+function showLoginAlert(msg){
+  const a=document.getElementById('loginAlert');
+  document.getElementById('loginAlertText').textContent=msg;
+  a.classList.add('show');
+}
+
+function doLogout(){
+  ['admin','func','user'].forEach(s=>{
+    const el=document.getElementById('screen-'+s);
+    el.classList.remove('active');
+  });
+  document.getElementById('screen-login').style.display='flex';
+  document.getElementById('loginEmail').value='';
+  document.getElementById('loginPass').value='';
+}
+
+/* ──────────────────────────────────────────
+   SEÇÕES (tabs do sidebar)
+────────────────────────────────────────── */
+function showSection(screen,section){
+  // Ocultar todas as seções
+  document.querySelectorAll('#screen-'+screen+' [data-section]').forEach(el=>{
+    el.classList.remove('section-active');
+  });
+  // Mostrar a seção alvo
+  const target=document.querySelector('#screen-'+screen+' [data-section="'+screen+'-'+section+'"]');
+  if(target)target.classList.add('section-active');
+  // Atualizar links ativos no sidebar
+  document.querySelectorAll('#sidebar-'+screen+' .sidebar-link').forEach(l=>l.classList.remove('active'));
+  // Atualizar título topbar
+  const titles={
+    'dashboard':'Dashboard','users':'Usuários','items':'Itens',
+    'devolutions':'Devoluções','reports':'Relatórios','settings':'Configurações',
+    'logs':'Logs do Sistema','register':'Registrar Item','search':'Buscar Itens',
+    'home':'Início','requests':'Minhas Solicitações','profile':'Meu Perfil',
+  };
+  const titleEl=document.getElementById(screen+'-topbar-title');
+  if(titleEl)titleEl.textContent=titles[section]||section;
+  // Fechar sidebar mobile
+  const sidebar=document.getElementById('sidebar-'+screen);
+  if(window.innerWidth<=900)sidebar.classList.remove('mobile-open');
+}
+
+/* ──────────────────────────────────────────
+   MODAIS
+────────────────────────────────────────── */
+function openModal(id,data){
+  if(id==='modal-item-detail'&&data)populateItemDetail(data);
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow='';
+}
+// Fechar clicando fora
+document.querySelectorAll('.modal-backdrop').forEach(b=>{
+  b.addEventListener('click',e=>{if(e.target===b){b.classList.remove('open');document.body.style.overflow='';}});
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-backdrop.open').forEach(b=>{b.classList.remove('open');document.body.style.overflow='';});
+  }
+});
+
+/* ──────────────────────────────────────────
+   ITEM DETAIL (Usuário)
+────────────────────────────────────────── */
+const itemsData={
+  celular:{emoji:'📱',name:'Celular preto',local:'Sala 12',data:'14/04/2025',status:'Aguardando',desc:'Celular com capa preta, tela 6.5". Encontrado embaixo da carteira. Sem bateria quando encontrado.'},
+  mochila:{emoji:'🎒',name:'Mochila preta',local:'Pátio',data:'13/04/2025',status:'Aguardando',desc:'Mochila preta com alça vermelha. Contém estojo amarelo e cadernos de anotações.'},
+  chave:{emoji:'🔑',name:'Chaves (chaveiro azul)',local:'Corredor B',data:'14/04/2025',status:'Aguardando',desc:'Chaves com chaveiro de borracha azul formato de estrela. Aproximadamente 4 chaves.'},
+  oculos:{emoji:'👓',name:'Óculos de grau',local:'Cantina',data:'12/04/2025',status:'Aguardando',desc:'Óculos de grau com armação preta fina. Grau médio, lentes com antirreflexo.'},
+  carteira:{emoji:'👛',name:'Carteira de estudante',local:'Biblioteca',data:'11/04/2025',status:'Aguardando',desc:'Carteirinha escolar da ETEC. Possui foto 3x4, nome e matrícula. Documento importante.'},
+};
+
+function populateItemDetail(key){
+  const d=itemsData[key]||itemsData.celular;
+  document.getElementById('modal-detail-thumb').textContent=d.emoji;
+  document.getElementById('modal-detail-info').innerHTML=`
+    <div><div style="font-size:.7rem;text-transform:uppercase;color:var(--g400);font-weight:700;margin-bottom:3px;">Item</div><div style="font-weight:700;color:var(--b700);">${d.name}</div></div>
+    <div><div style="font-size:.7rem;text-transform:uppercase;color:var(--g400);font-weight:700;margin-bottom:3px;">Local</div><div style="font-weight:700;color:var(--b700);">${d.local}</div></div>
+    <div><div style="font-size:.7rem;text-transform:uppercase;color:var(--g400);font-weight:700;margin-bottom:3px;">Data</div><div style="font-weight:700;color:var(--b700);">${d.data}</div></div>
+    <div><div style="font-size:.7rem;text-transform:uppercase;color:var(--g400);font-weight:700;margin-bottom:3px;">Status</div><span class="badge badge-waiting">${d.status}</span></div>
+  `;
+  document.getElementById('modal-detail-desc').textContent=d.desc;
+  document.getElementById('modal-detail-actions').innerHTML=`
+    <button class="btn btn-gray" onclick="closeModal('modal-item-detail')">❌ Não é o que procuro</button>
+    <button class="btn btn-gold" onclick="closeModal('modal-item-detail');openModal('modal-request-devolution')">✅ Este item é meu</button>
+  `;
+}
+
+function submitRequest(){
+  closeModal('modal-request-devolution');
+  setTimeout(()=>{
+    alert('✅ Solicitação enviada com sucesso!\n\nSua solicitação foi registrada e está em análise.\nEm até 48h a equipe APETEC entrará em contato.');
+  },200);
+}
+
+/* ──────────────────────────────────────────
+   SIDEBAR MOBILE
+────────────────────────────────────────── */
+function toggleSidebar(id){
+  document.getElementById(id).classList.toggle('mobile-open');
+}
+
+/* ──────────────────────────────────────────
+   NOTIFICAÇÕES
+────────────────────────────────────────── */
+function toggleNotif(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('open');
+}
+document.addEventListener('click',e=>{
+  document.querySelectorAll('.notif-dropdown.open').forEach(d=>{
+    if(!d.parentElement.contains(e.target))d.classList.remove('open');
+  });
+});
+
+/* ──────────────────────────────────────────
+   CATEGORIAS (usuário)
+────────────────────────────────────────── */
+function filterCat(cat){alert(`Filtrando por categoria: ${cat}\n\n(Simulado — exibiria itens desta categoria)`)}
+
+/* ──────────────────────────────────────────
+   EXCLUIR ITEM
+────────────────────────────────────────── */
+function confirmDelete(){
+  if(confirm('Tem certeza que deseja excluir este item?\nEsta ação não pode ser desfeita.'))
+    alert('✅ Item excluído do sistema. (simulado)');
+}
+
+/* ──────────────────────────────────────────
+   CHART.JS
+────────────────────────────────────────── */
+function initCharts(){
+  const ctx=document.getElementById('chartBars');
+  if(!ctx||ctx._chartInitialized)return;
+  ctx._chartInitialized=true;
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+      datasets:[{
+        label:'Itens encontrados',
+        data:[3,7,4,8,6,2,1],
+        backgroundColor:'rgba(218,165,32,0.75)',
+        borderColor:'#B8860B',
+        borderWidth:1.5,
+        borderRadius:4,
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        y:{ticks:{font:{size:10},color:'#a1a1aa'},grid:{color:'rgba(0,0,0,.05)'}},
+        x:{ticks:{font:{size:10},color:'#a1a1aa'},grid:{display:false}},
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>

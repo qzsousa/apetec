@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sobre Nós – APETEC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+      <div class="nav-logo-text"><span>APETEC</span><span>ETEC de Itaquera</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Início</a>
+      <a href="sobre.html" class="active">Sobre Nós</a>
+      <a href="produtos-servicos.html">Serviços</a>
+      <a href="blog.html">Blog</a>
+      <a href="contato.html">Contato</a>
+      <a href="login.html" class="btn-area-restrita"><i class="fa-solid fa-lock"></i> Área Restrita</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <nav class="nav-mobile" id="navMobile">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre Nós</a>
+    <a href="produtos-servicos.html">Serviços</a>
+    <a href="blog.html">Blog / Notícias</a>
+    <a href="contato.html">Contato</a>
+    <a href="login.html" class="btn-area-restrita"><i class="fa-solid fa-lock"></i> Área Restrita</a>
+  </nav>
+</header>
+
+<!-- HERO INTERNO -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="page-hero-icon"><i class="fa-solid fa-building-columns"></i></div>
+    <h1>Sobre a APETEC</h1>
+    <p>Conheça nossa história, valores e a equipe que dedica seu tempo para devolver o que é seu.</p>
+    <div class="breadcrumb">
+      <a href="index.html">Início</a>
+      <i class="fa-solid fa-chevron-right"></i>
+      <span>Sobre Nós</span>
+    </div>
+  </div>
+</section>
+
+<!-- HISTÓRIA -->
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;" class="about-history-grid">
+      <div>
+        <span class="section-tag">Nossa Trajetória</span>
+        <h2 class="section-title" style="text-align:left;">Uma ideia simples que virou referência</h2>
+        <div class="title-line" style="margin:14px 0 24px;"></div>
+        <p style="color:var(--gray-600);line-height:1.8;margin-bottom:16px;font-size:0.95rem;">
+          Em <strong style="color:var(--bordo-600);">2014</strong>, um grupo de alunos do curso Técnico em Administração percebeu que objetos perdidos no campus ficavam sem dono por semanas — quando não eram descartados. Nasceu ali a ideia da APETEC.
+        </p>
+        <p style="color:var(--gray-600);line-height:1.8;margin-bottom:16px;font-size:0.95rem;">
+          O projeto começou com um simples caderno de registros na secretaria. Em 2017, foi desenvolvido o primeiro sistema digital. Em 2020, integramos notificações por e-mail. Em 2024, implementamos busca por QR Code.
+        </p>
+        <p style="color:var(--gray-600);line-height:1.8;font-size:0.95rem;">
+          Hoje, a APETEC é um projeto reconhecido pela Secretaria Estadual de Educação de SP e serve de modelo para outras ETECs do estado.
+        </p>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--bordo-900),var(--bordo-700));border-radius:var(--r-xl);padding:48px 36px;text-align:center;box-shadow:var(--shadow-lg);">
+        <i class="fa-solid fa-timeline" style="font-size:48px;color:var(--ouro-500);margin-bottom:24px;"></i>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--ouro-300);font-size:1.3rem;margin-bottom:20px;">Linha do Tempo</h3>
+        <div style="display:flex;flex-direction:column;gap:16px;text-align:left;">
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="background:linear-gradient(135deg,var(--ouro-600),var(--ouro-800));color:var(--bordo-900);font-size:0.7rem;font-weight:900;padding:3px 8px;border-radius:12px;flex-shrink:0;margin-top:2px;">2014</span>
+            <span style="font-size:0.85rem;color:rgba(253,248,240,0.75);">Fundação do projeto com caderno de registros</span>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="background:linear-gradient(135deg,var(--ouro-600),var(--ouro-800));color:var(--bordo-900);font-size:0.7rem;font-weight:900;padding:3px 8px;border-radius:12px;flex-shrink:0;margin-top:2px;">2017</span>
+            <span style="font-size:0.85rem;color:rgba(253,248,240,0.75);">Lançamento do primeiro sistema digital</span>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="background:linear-gradient(135deg,var(--ouro-600),var(--ouro-800));color:var(--bordo-900);font-size:0.7rem;font-weight:900;padding:3px 8px;border-radius:12px;flex-shrink:0;margin-top:2px;">2020</span>
+            <span style="font-size:0.85rem;color:rgba(253,248,240,0.75);">Integração com notificações por e-mail</span>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <span style="background:linear-gradient(135deg,var(--ouro-600),var(--ouro-800));color:var(--bordo-900);font-size:0.7rem;font-weight:900;padding:3px 8px;border-radius:12px;flex-shrink:0;margin-top:2px;">2024</span>
+            <span style="font-size:0.85rem;color:rgba(253,248,240,0.75);">QR Code, 10 anos e reconhecimento estadual</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSÃO E VISÃO -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Propósito</span>
+      <h2 class="section-title">Missão, Visão e Propósito</h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="mv-grid">
+      <div class="mv-card">
+        <h3><i class="fa-solid fa-bullseye"></i> Missão</h3>
+        <p>"Facilitar a devolução de objetos perdidos na comunidade escolar, promovendo honestidade, agilidade e transparência em cada interação."</p>
+      </div>
+      <div class="mv-card">
+        <h3><i class="fa-solid fa-eye"></i> Visão</h3>
+        <p>"Ser referência em sistemas de achados e perdidos em instituições de ensino técnico do estado de São Paulo, inspirando outras escolas."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALORES -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Nossos Princípios</span>
+      <h2 class="section-title">Valores que nos guiam</h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="values-grid">
+      <div class="value-card fade-in">
+        <div class="value-icon"><i class="fa-solid fa-handshake"></i></div>
+        <div class="value-title">Honestidade</div>
+        <div class="value-text">Agimos com integridade em cada devolução, respeitando as partes envolvidas.</div>
+      </div>
+      <div class="value-card fade-in">
+        <div class="value-icon"><i class="fa-solid fa-heart"></i></div>
+        <div class="value-title">Respeito</div>
+        <div class="value-text">Tratamos todos — quem perdeu e quem encontrou — com dignidade e empatia.</div>
+      </div>
+      <div class="value-card fade-in">
+        <div class="value-icon"><i class="fa-solid fa-bolt"></i></div>
+        <div class="value-title">Eficiência</div>
+        <div class="value-text">Buscamos a devolução rápida. Cada hora importa para quem está procurando.</div>
+      </div>
+      <div class="value-card fade-in">
+        <div class="value-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="value-title">Transparência</div>
+        <div class="value-text">Todos os registros são auditáveis. Nada ocorre às escondidas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPE -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Quem Faz Acontecer</span>
+      <h2 class="section-title">Nossa equipe</h2>
+      <p class="section-subtitle">Alunos voluntários e funcionários dedicados que tornam a APETEC possível todos os dias.</p>
+      <div class="title-line"></div>
+    </div>
+    <div class="team-grid">
+      <div class="team-card fade-in">
+        <div class="team-avatar"><i class="fa-solid fa-user-tie"></i></div>
+        <div class="team-name">Prof. Carlos Eduardo</div>
+        <div class="team-role">Coordenador Geral</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+        <div class="team-name">Letícia Moraes</div>
+        <div class="team-role">Gestora do Sistema</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+        <div class="team-name">Gabriel Santos</div>
+        <div class="team-role">Desenvolvedor Voluntário</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar"><i class="fa-solid fa-user"></i></div>
+        <div class="team-name">Fernanda Costa</div>
+        <div class="team-role">Atendimento e Devoluções</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+        <div class="team-name">Rodrigo Lima</div>
+        <div class="team-role">APETEC Jovem Aprendiz</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+        <div class="team-name">Isabela Nunes</div>
+        <div class="team-role">APETEC Jovem Aprendiz</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2>Faça parte da nossa comunidade</h2>
+  <p>Seja voluntário, acesse o sistema ou entre em contato. A APETEC é de todos nós.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+    <a href="contato.html" class="btn btn-gold btn-lg"><i class="fa-solid fa-envelope"></i> Entre em Contato</a>
+    <a href="login.html" class="btn btn-outline-gold btn-lg"><i class="fa-solid fa-right-to-bracket"></i> Acessar Sistema</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div><div class="nav-logo-text"><span>APETEC</span><span>ETEC de Itaquera</span></div></a>
+      <p class="footer-brand-desc">Sistema de Achados e Perdidos da Escola Técnica Estadual de Itaquera. Devolvendo o que é seu desde 2014.</p>
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Navegação</h4><div class="footer-links"><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Início</a><a href="sobre.html"><i class="fa-solid fa-chevron-right"></i> Sobre Nós</a><a href="produtos-servicos.html"><i class="fa-solid fa-chevron-right"></i> Serviços</a><a href="blog.html"><i class="fa-solid fa-chevron-right"></i> Blog</a><a href="contato.html"><i class="fa-solid fa-chevron-right"></i> Contato</a></div></div>
+    <div class="footer-col"><h4>Legal</h4><div class="footer-links"><a href="politicas.html"><i class="fa-solid fa-chevron-right"></i> Política de Privacidade</a><a href="politicas.html"><i class="fa-solid fa-chevron-right"></i> Termos de Uso</a><a href="login.html"><i class="fa-solid fa-chevron-right"></i> Área Restrita</a></div></div>
+    <div class="footer-col"><h4>Contato</h4><div class="footer-contact-item"><i class="fa-solid fa-location-dot"></i><span>Rua Itaquera, 500 – São Paulo – SP</span></div><div class="footer-contact-item"><i class="fa-solid fa-phone"></i><span>(11) 99999-9999</span></div><div class="footer-contact-item"><i class="fa-solid fa-envelope"></i><span>contato@apetec.com</span></div></div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 APETEC – ETEC de Itaquera.</span>
+    <div class="footer-bottom-links"><a href="politicas.html">Privacidade</a><a href="politicas.html">Termos</a><a href="contato.html">Suporte</a></div>
+  </div>
+</footer>
+
+<style>
+@media(max-width:768px){.about-history-grid{grid-template-columns:1fr!important;}}
+</style>
+<script src="script.js"></script>
+</body>
+</html>     
