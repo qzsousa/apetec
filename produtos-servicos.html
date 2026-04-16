@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Serviços – APETEC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div>
+      <div class="nav-logo-text"><span>APETEC</span><span>ETEC de Itaquera</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre Nós</a>
+      <a href="produtos-servicos.html" class="active">Serviços</a>
+      <a href="blog.html">Blog</a>
+      <a href="contato.html">Contato</a>
+      <a href="login.html" class="btn-area-restrita"><i class="fa-solid fa-lock"></i> Área Restrita</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <nav class="nav-mobile" id="navMobile">
+    <a href="index.html">Início</a><a href="sobre.html">Sobre Nós</a><a href="produtos-servicos.html">Serviços</a><a href="blog.html">Blog</a><a href="contato.html">Contato</a>
+    <a href="login.html" class="btn-area-restrita"><i class="fa-solid fa-lock"></i> Área Restrita</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="page-hero-icon"><i class="fa-solid fa-gears"></i></div>
+    <h1>Produtos e Serviços</h1>
+    <p>Conheça todas as ferramentas que a APETEC oferece para facilitar a recuperação dos seus itens.</p>
+    <div class="breadcrumb">
+      <a href="index.html">Início</a><i class="fa-solid fa-chevron-right"></i><span>Serviços</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇO PRINCIPAL -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Core do Sistema</span>
+      <h2 class="section-title">Sistema de Gerenciamento de Achados e Perdidos</h2>
+      <p class="section-subtitle">Uma plataforma completa desenvolvida por alunos da ETEC para toda a comunidade escolar.</p>
+      <div class="title-line"></div>
+    </div>
+    <div style="background:linear-gradient(135deg,var(--bordo-200),var(--ouro-100));border:1.5px solid rgba(212,175,55,0.25);border-radius:var(--r-xl);padding:48px 40px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;" class="main-service-grid">
+      <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--bordo-700);margin-bottom:16px;">Por que usar a APETEC?</h3>
+        <div class="service-benefits">
+          <div class="benefit-item"><i class="fa-solid fa-check-circle"></i> Registro em menos de 2 minutos com foto e localização</div>
+          <div class="benefit-item"><i class="fa-solid fa-check-circle"></i> Busca por categoria, data e descrição do item</div>
+          <div class="benefit-item"><i class="fa-solid fa-check-circle"></i> Notificação automática por e-mail ao proprietário</div>
+          <div class="benefit-item"><i class="fa-solid fa-check-circle"></i> Identificação segura com verificação de identidade</div>
+          <div class="benefit-item"><i class="fa-solid fa-check-circle"></i> Histórico completo de todos os itens registrados</div>
+          <div class="benefit-item"><i class="fa-solid fa-check-circle"></i> Relatórios mensais para a coordenação escolar</div>
+          <div class="benefit-item"><i class="fa-solid fa-check-circle"></i> Acesso 24/7 pelo sistema online</div>
+        </div>
+        <div style="margin-top:24px;">
+          <a href="login.html" class="btn btn-bordo"><i class="fa-solid fa-right-to-bracket"></i> Acessar Agora</a>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <div style="background:linear-gradient(135deg,var(--bordo-800),var(--bordo-600));border-radius:var(--r-xl);padding:48px 32px;box-shadow:var(--shadow-lg);">
+          <i class="fa-solid fa-magnifying-glass-location" style="font-size:64px;color:var(--ouro-400);margin-bottom:20px;filter:drop-shadow(0 4px 12px rgba(212,175,55,.35));"></i>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;">
+            <div style="background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.2);border-radius:var(--r-sm);padding:16px;text-align:center;">
+              <div style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--ouro-300);font-weight:700;">500+</div>
+              <div style="font-size:0.7rem;color:rgba(253,248,240,.6);text-transform:uppercase;letter-spacing:.06em;">Itens Devolvidos</div>
+            </div>
+            <div style="background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.2);border-radius:var(--r-sm);padding:16px;text-align:center;">
+              <div style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--ouro-300);font-weight:700;">98%</div>
+              <div style="font-size:0.7rem;color:rgba(253,248,240,.6);text-transform:uppercase;letter-spacing:.06em;">Satisfação</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDS DE SERVIÇOS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Funcionalidades</span>
+      <h2 class="section-title">Cada serviço, no detalhe</h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="cards-grid">
+      <div class="service-card fade-in">
+        <div class="service-card-top">
+          <div class="service-card-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+          <div class="service-card-title">Registro de Itens</div>
+        </div>
+        <div class="service-card-body">
+          <p class="service-card-text">Cadastre objetos encontrados no campus com fotos, descrição detalhada, local e data. O sistema gera um código único para cada item.</p>
+          <div class="service-benefits">
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Upload de até 3 fotos por item</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Categorias: eletrônicos, documentos, vestuário, etc.</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Geolocalização do ponto de achado</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-card-top">
+          <div class="service-card-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <div class="service-card-title">Busca Online</div>
+        </div>
+        <div class="service-card-body">
+          <p class="service-card-text">Pesquise o acervo completo de itens encontrados por palavra-chave, categoria, período ou localização no campus.</p>
+          <div class="service-benefits">
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Filtros avançados combinados</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Busca por imagem (em breve)</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Resultados em tempo real</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-card-top">
+          <div class="service-card-icon"><i class="fa-solid fa-envelope-circle-check"></i></div>
+          <div class="service-card-title">Notificação por E-mail</div>
+        </div>
+        <div class="service-card-body">
+          <p class="service-card-text">Cadastre alertas com palavras-chave e seja notificado automaticamente por e-mail quando um item correspondente aparecer no sistema.</p>
+          <div class="service-benefits">
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Alertas personalizáveis</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Envio em até 1 hora do registro</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Cancelamento fácil</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-card-top">
+          <div class="service-card-icon"><i class="fa-solid fa-handshake"></i></div>
+          <div class="service-card-title">Devolução Assistida</div>
+        </div>
+        <div class="service-card-body">
+          <p class="service-card-text">Nossa equipe verifica a identidade do solicitante, compara com os dados do cadastro e acompanha a entrega pessoalmente para garantir segurança.</p>
+          <div class="service-benefits">
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Verificação de identidade com RG</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Registro de entrega assinado</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Guarda por até 90 dias</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-card-top">
+          <div class="service-card-icon"><i class="fa-solid fa-qrcode"></i></div>
+          <div class="service-card-title">QR Code Pessoal</div>
+        </div>
+        <div class="service-card-body">
+          <p class="service-card-text">Gere um QR Code exclusivo para colar nos seus pertences. Se alguém encontrar, basta escanear para ver como te contatar.</p>
+          <div class="service-benefits">
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Geração gratuita e instantânea</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Dados protegidos e privados</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Funciona offline</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-card-top">
+          <div class="service-card-icon"><i class="fa-solid fa-chart-bar"></i></div>
+          <div class="service-card-title">Relatórios Gerenciais</div>
+        </div>
+        <div class="service-card-body">
+          <p class="service-card-text">Para coordenação e administração: relatórios mensais com estatísticas, itens mais frequentes, taxas de devolução e gráficos.</p>
+          <div class="service-benefits">
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Exportação em PDF e Excel</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Gráficos por período</div>
+            <div class="benefit-item"><i class="fa-solid fa-check"></i> Acesso apenas para admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTO DESTAQUE -->
+<section class="section">
+  <div class="container">
+    <div class="testimonial-featured">
+      <div class="tf-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+      <div class="tf-content">
+        <blockquote>"Perdi minha mochila com notebook e livros caríssimos na ETEC. Em 3 horas a APETEC me avisou por e-mail que estava lá. O sistema de notificação salvou meu semestre. Sem isso, teria perdido tudo."</blockquote>
+        <cite>— Marcos Vinícius, aluno do 2º módulo de Desenvolvimento de Sistemas</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2>Utilize todos os serviços gratuitamente</h2>
+  <p>A APETEC é 100% gratuita para toda a comunidade da ETEC de Itaquera.</p>
+  <a href="login.html" class="btn btn-gold btn-lg"><i class="fa-solid fa-right-to-bracket"></i> Criar minha conta</a>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon"><i class="fa-solid fa-magnifying-glass-location"></i></div><div class="nav-logo-text"><span>APETEC</span><span>ETEC de Itaquera</span></div></a>
+      <p class="footer-brand-desc">Sistema de Achados e Perdidos da Escola Técnica Estadual de Itaquera. Devolvendo o que é seu desde 2014.</p>
+      <div class="social-links"><a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a><a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a><a href="#" class="social-link"><i class="fa-brands fa-whatsapp"></i></a><a href="#" class="social-link"><i class="fa-brands fa-x-twitter"></i></a></div>
+    </div>
+    <div class="footer-col"><h4>Navegação</h4><div class="footer-links"><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Início</a><a href="sobre.html"><i class="fa-solid fa-chevron-right"></i> Sobre Nós</a><a href="produtos-servicos.html"><i class="fa-solid fa-chevron-right"></i> Serviços</a><a href="blog.html"><i class="fa-solid fa-chevron-right"></i> Blog</a><a href="contato.html"><i class="fa-solid fa-chevron-right"></i> Contato</a></div></div>
+    <div class="footer-col"><h4>Legal</h4><div class="footer-links"><a href="politicas.html"><i class="fa-solid fa-chevron-right"></i> Política de Privacidade</a><a href="politicas.html"><i class="fa-solid fa-chevron-right"></i> Termos de Uso</a><a href="login.html"><i class="fa-solid fa-chevron-right"></i> Área Restrita</a></div></div>
+    <div class="footer-col"><h4>Contato</h4><div class="footer-contact-item"><i class="fa-solid fa-location-dot"></i><span>Rua Itaquera, 500 – SP</span></div><div class="footer-contact-item"><i class="fa-solid fa-phone"></i><span>(11) 99999-9999</span></div><div class="footer-contact-item"><i class="fa-solid fa-envelope"></i><span>contato@apetec.com</span></div></div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 APETEC – ETEC de Itaquera.</span>
+    <div class="footer-bottom-links"><a href="politicas.html">Privacidade</a><a href="politicas.html">Termos</a><a href="contato.html">Suporte</a></div>
+  </div>
+</footer>
+
+<style>
+@media(max-width:768px){.main-service-grid{grid-template-columns:1fr!important;}}
+</style>
+<script src="script.js"></script>
+</body>
+</html>
